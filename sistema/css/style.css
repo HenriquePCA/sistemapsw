@@ -1,0 +1,282 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+body {
+    background-color: black;
+}
+
+header {
+    background-color: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    font-weight: 700;
+    z-index: 1000; /* Adiciona z-index maior para o header */
+}
+
+header nav {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+}
+
+header nav #logo {
+    margin-top: 5px;
+    width: 150px;
+}
+
+header nav .menu {
+    display: flex;
+    align-items: center;
+}
+
+header nav .menu a {
+    color: #F2F2F2;
+    margin-left: 30px;
+    position: relative;
+}
+
+header nav .menu a::after {
+    content: '' ;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background-color: rgb(0, 51, 160);
+    transition: 0.4s;
+}
+
+header nav .menu a:hover::after {
+    width: 100%;
+}
+
+header nav .icones a i {
+    font-size: 22px;
+    margin-left: 10px;
+}
+
+header nav .icones a i:hover {
+    transform: scale(1.3);
+    color: rgb(0, 51, 160);
+    transition: 0.3s;
+}
+
+.inicio {
+    margin-top: 150px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inicio .main {
+    width: 70%;
+    margin-left: 60px;
+}
+
+.inicio .main h3 {
+    font-size: 40px;
+    color: rgb(0, 51, 160);
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.inicio .main h1 {
+    color: #F2F2F2;
+    font-size: 70px;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 30px;
+}
+
+.inicio .main h1 span {
+    color: rgb(0, 51, 160);
+    font-size: 80px;
+    font-weight: bold;
+}
+
+.inicio .main p {
+    color: #F2F2F2;
+    margin-bottom: 30px;
+}
+
+.inicio .main .botao {
+    padding: 10px 30px;
+    background-color: rgb(0, 51, 160);
+    text-transform: uppercase;
+    color: #F2F2F2;
+    font-weight: bold;
+    border: 2px solid rgb(0, 51, 160);
+    transition: 0.3s;
+}
+
+.inicio .main .botao:hover {
+    background-color: transparent;
+}
+
+.carousel-container {
+    width: 50%;
+    overflow: hidden;
+    position: relative;
+    margin-right: 60px;
+    z-index: 1; /* Adiciona z-index menor para o carrossel */
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel img {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+
+footer {
+    margin-top: 150px;
+    background-color: black;
+    color: #f2f2f2;
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 0;
+}
+
+.footer-section {
+    flex: 1;
+    padding: 0 20px;
+}
+
+.footer-section h4 {
+    border-bottom: 1px solid black;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.footer-section p,
+.footer-section ul {
+    margin: 0;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin: 5px 0;
+}
+
+.footer-section ul li a {
+    color: #F2F2F2;
+    text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+    text-decoration: underline;
+}
+
+a:-webkit-any-link {
+    color: #f2f2f2;
+    cursor: pointer;
+}
+
+.principal {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 40px;
+}
+.formulario {
+    width: 50%;
+    padding: 40px;
+    box-sizing: border-box;
+}
+.formulario h2 {
+    margin-bottom: 20px;
+}
+.formulario form {
+    display: flex;
+    flex-direction: column;
+}
+.formulario label {
+    margin-bottom: 5px;
+}
+.formulario input {
+    margin-bottom: 20px;
+    padding: 5px;
+    border: 1px solid #f2f2f2;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.formulario button {
+    padding: 10px 30px;
+    background-color: rgb(0, 51, 160);
+    text-transform: uppercase;
+    color: #F2F2F2;
+    font-weight: bold;
+    border: 2px solid rgb(0, 51, 160);
+    transition: 0.3s;
+    cursor: pointer;
+}
+.formulario button:hover {
+    background-color: transparent;
+}
+
+.formulario h2{
+    color: #F2F2F2;
+}
+
+.formulario label{
+    color: #F2F2F2;
+}
+
+#titulo{
+    margin-top: 150px;
+    text-align: center;
+    color: #F2F2F2;
+}
+
+#login p{
+    font-weight: 300;
+    font-style: normal;
+    margin-top: 5px;
+    text-align: center;
+    color: #F2F2F2;
+}
+
+#login p span{
+    font-weight: 500;
+    color: rgb(0, 51, 160);
+}
+
+ #mensagem {
+    height: 100px; 
+
+}
+
+#msg{
+    font-size: 20px;
+    text-align: center;
+}
+
+#p{
+    color: #F2F2F2;
+    text-align: center;
+}
+
