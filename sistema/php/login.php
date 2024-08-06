@@ -1,3 +1,45 @@
+<?php
+include('conexao.php');
+
+if(isset($_POST['email']) && isset($_POST['senha'])) {
+
+    if(empty($_POST['email'])) {
+        echo "Preencha seu e-mail";
+    } else if(empty($_POST['senha'])) {
+        echo "Preencha sua senha";
+    } else {
+
+        $email = $mysqli->real_escape_string($_POST['email']);
+        $senha = $mysqli->real_escape_string($_POST['senha']);
+
+        // Usando prepared statements para prevenir SQL injection
+        $sql_code = "SELECT * FROM usuarios WHERE email = ? AND senha = ?";
+        $stmt = $mysqli->prepare($sql_code);
+        $stmt->bind_param("ss", $email, $senha);
+        $stmt->execute();
+        $sql_query = $stmt->get_result();
+
+        $quantidade = $sql_query->num_rows;
+
+        if($quantidade == 1) {
+            $usuario = $sql_query->fetch_assoc();
+
+            if(session_status() !== PHP_SESSION_ACTIVE) {
+                session_start();
+            }
+
+            $_SESSION['email'] = $usuario['email'];
+            $_SESSION['nome'] = $usuario['nome'];
+
+            header("Location: painel.php");
+            exit(); // Garante que o código pare de executar após o redirecionamento
+        } else {
+            echo "Falha ao logar! E-mail ou senha incorretos";
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,11 +53,11 @@
 
 <header>
         <nav>
-        <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
+            <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
             <div class="menu">
                 <a href="index.php">Início</a>
-                <a href="marcas.php">Marcas</a>
-                <a href="ofertas.php">Ofertas</a>
+                <a href="produtos.php">Produtos</a>
+                <a href="fornecedores.php">Fornecedores</a>
                 <a href="fale.php">Fale conosco</a>
                 <a href="sobre.php">Sobre</a>
                 <a href="../php/cadastro.php">Cadastre-se</a>
@@ -28,13 +70,14 @@
         </nav>
     </header>
 
+
     <h1 id="titulo">Faça seu login</h1>
 
 <div class="principal">
 
         <div class="formulario">
             <h2>Insira seus dados:</h2>
-            <form action="post.php" method="post">
+            <form action="painel.php" method="post">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
 

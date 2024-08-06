@@ -10,13 +10,13 @@
     <title>Início</title>
 </head>
 <body>
-    <header>
+<header>
         <nav>
             <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
             <div class="menu">
                 <a href="index.php">Início</a>
-                <a href="marcas.php">Marcas</a>
-                <a href="ofertas.php">Ofertas</a>
+                <a href="produtos.php">Produtos</a>
+                <a href="fornecedores.php">Fornecedores</a>
                 <a href="fale.php">Fale conosco</a>
                 <a href="sobre.php">Sobre</a>
                 <a href="../php/cadastro.php">Cadastre-se</a>
@@ -28,13 +28,13 @@
             </div>
         </nav>
     </header>
-
+    
     <div class="inicio">
         <div class="main">
-            <h3>LUXO CAR VEICULOS</h3>
-            <h1>GARANTA SEU VEICULO <br> <span> AGORA</span> </h1>
+            <h3>LUXO BIKE</h3>
+            <h1>GARANTA SUA BICICLETA <br> <span> AGORA</span> </h1>
             <p>COM A MELHOR QUALIDADE </p>
-            <a href="#" class="botao">Ver Veículos</a>
+            <a href="#" class="botao">Ver Bicicletas</a>
         </div>
 
         <div class="carousel-container">
@@ -50,10 +50,10 @@
     <div class="contatos">
             <h4>Contatos</h4>
             <p>Telefone: (77) 1234-5678</p>
-            <p>Email: luxocarveiculos@gmail.com</p>
+            <p>Email: luxobike@gmail.com</p>
         </div>
         <div class="links">
-            <h4>links</h4>
+            <h4>Links</h4>
             <ul>
                 <li><a href="#">Sobre</a></li>
                 <li><a href="#">Ofertas</a></li>

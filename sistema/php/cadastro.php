@@ -1,3 +1,15 @@
+<?php
+$mensagem = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nome = $_POST['nome'];
+
+    // Seu código para incluir o usuário no banco de dados vai aqui
+
+    $mensagem = "O usuário $nome foi incluído com sucesso.";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,7 +47,7 @@
 
         <div class="formulario">
             <h2>Dados cadastrais</h2>
-            <form action="post.php" method="post">
+            <form action="crudcadastro.php" method="post">
                 <label for="nome">Nome Completo:</label>
                 <input type="text" id="nome" name="nome" required>
 

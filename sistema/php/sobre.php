@@ -42,8 +42,8 @@
             <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
             <div class="menu">
                 <a href="index.php">Início</a>
-                <a href="marcas.php">Marcas</a>
-                <a href="ofertas.php">Ofertas</a>
+                <a href="produtos.php">Produtos</a>
+                <a href="fornecedores.php">Fornecedores</a>
                 <a href="fale.php">Fale conosco</a>
                 <a href="sobre.php">Sobre</a>
                 <a href="../php/cadastro.php">Cadastre-se</a>

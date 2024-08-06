@@ -11,11 +11,11 @@
 
 <header>
         <nav>
-        <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
+            <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
             <div class="menu">
                 <a href="index.php">Início</a>
-                <a href="marcas.php">Marcas</a>
-                <a href="ofertas.php">Ofertas</a>
+                <a href="produtos.php">Produtos</a>
+                <a href="fornecedores.php">Fornecedores</a>
                 <a href="fale.php">Fale conosco</a>
                 <a href="sobre.php">Sobre</a>
                 <a href="../php/cadastro.php">Cadastre-se</a>
@@ -27,6 +27,7 @@
             </div>
         </nav>
     </header>
+
 
     <h1 id="titulo">Fale conosco</h1>
     <p id="p">Deseja esclarecer dúvidas ou fazer orçamentos? <br> <span>Mande-nos uma mensagem!</span></p>
