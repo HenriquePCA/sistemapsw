@@ -55,20 +55,25 @@
 require_once("conexao.php");
 
 $nome= $_POST['nome'];
-$email= $_POST['email'];
-$data_nascimento= $_POST['data_nascimento'];
+$cnpj= $_POST['cnpj'];
+$endereco= $_POST['endereco'];
+$cidade= $_POST['cidade'];
+$estado= $_POST['estado'];
+$cep= $_POST['cep'];
 $telefone= $_POST['telefone'];
+$email= $_POST['email'];
+$representante= $_POST['representante'];
 $senha= $_POST['senha'];
 $confirmar_senha= $_POST['confirmar_senha'];
 
 if ($senha == $confirmar_senha) {
-    $sql = "INSERT INTO usuario (nome, email, nascimento, telefone, senha) VALUES ('$nome', '$email', '$data_nascimento', '$telefone', '$senha')";
+    $sql = "INSERT INTO fornecedor (nome, cnpj, endereco, cidade, estado, cep, telefone, email, representante, senha) VALUES ('$nome', '$cnpj', '$endereco', '$cidade', '$estado', '$cep', '$telefone', '$email', '$representante', '$senha')";
     $sqlcombanco = $conexao->prepare($sql);
 
     if ($sqlcombanco->execute()) {
         echo "<div class='success-message'>";
-        echo "<h3>Ok, o usuário $nome foi incluído com sucesso!</h3>";
-        echo "<a href='listausuarios.php' class='success-button'>Visualizar lista de usuários</a>";
+        echo "<h3>Ok, o fornecedor $nome foi incluído com sucesso!</h3>";
+        echo "<a href='listafornecedor.php' class='success-button'>Visualizar lista de fornecedores</a>";
         echo "</div>";
     }
 } else {
@@ -80,4 +85,3 @@ if ($senha == $confirmar_senha) {
 
 </body>
 </html>
-

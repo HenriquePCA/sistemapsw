@@ -21,7 +21,7 @@ header {
     left: 0;
     right: 0;
     font-weight: 700;
-    z-index: 1000; /* Adiciona z-index maior para o header */
+    z-index: 1000; 
 }
 
 header nav {
@@ -133,7 +133,7 @@ header nav .icones a i:hover {
     overflow: hidden;
     position: relative;
     margin-right: 60px;
-    z-index: 1; /* Adiciona z-index menor para o carrossel */
+    z-index: 1; 
 }
 
 .carousel {
