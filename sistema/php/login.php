@@ -104,7 +104,7 @@ if(isset($_POST['email']) && isset($_POST['senha'])) {
                   </div>
                   </div>
                   <div class="dropdown">
-                <a href="listamarca.php">Marcas</a>
+                <a href="listamarcas.php">Marcas</a>
                 <div class="dropdown-content">
                      <a href="cadastromarca.php">Cadastro</a>
                      <a href="listamarca.php">Lista</a>

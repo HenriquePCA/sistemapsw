@@ -77,10 +77,10 @@ $retorno->execute();
                   </div>
                   </div>
                   <div class="dropdown">
-                <a href="listamarca.php">Marcas</a>
+                <a href="listamarcas.php">Marcas</a>
                 <div class="dropdown-content">
                      <a href="cadastromarca.php">Cadastro</a>
-                     <a href="listamarca.php">Lista</a>
+                     <a href="listamarcas.php">Lista</a>
                   </div>
                   </div>
                 <a href="sobre.php">Sobre</a>
