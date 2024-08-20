@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultado da Exclusão</title>
+    <title>Resultado da Alteração</title>
     <style>
-        body {
+              body {
             font-family: Arial, sans-serif;
+            text-decoration: none;
             background-color: black;
             margin: 0;
             padding: 20px;
@@ -14,7 +15,6 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            text-align: center;
         }
 
         header {
@@ -54,7 +54,7 @@
         }
 
         header nav .menu a::after {
-            content: '';
+            content: '' ;
             position: absolute;
             bottom: -5px;
             left: 0;
@@ -94,6 +94,7 @@
         }
 
         h3 {
+            text-align: center;
             color: white;
             margin-bottom: 20px;
         }
@@ -123,9 +124,10 @@
             background-color: transparent;
             border: 2px solid rgb(0, 51, 160);
         }
+    
     </style>
-
-<style>
+    
+    <style>
         
         .dropdown {
             position: relative;
@@ -197,29 +199,33 @@
             </div>
         </nav>
     </header>
-
 <div class="message-box">
     <?php
     require_once("conexao.php");
-
     $id = $_POST['id'];
+    $nome= $_POST['nome'];
+    $website= $_POST['website'];
+    $estatus= $_POST['estatus'];
+    
+    if ($id == $id) {
+        $sql = "UPDATE marca
+        SET nome = '$nome', 
+            website = '$website',
+            estatus = '$estatus'
+        WHERE id = '$id';";
 
-    $sql = "DELETE FROM usuario WHERE id = :id";
-    $sqlcombanco = $conexao->prepare($sql);
-    $sqlcombanco->bindParam(':id', $id, PDO::PARAM_INT);
 
-    if ($sqlcombanco->execute()) {
-        echo "<h3>Usuário excluído com sucesso!</h3>";
+        $sqlcombanco = $conexao->prepare($sql);
+
+        if ($sqlcombanco->execute()) {
+            echo "<h3>Ok!</h3> A marca $nome foi alterada com sucesso!";
+        }
     } else {
-        echo "<h3>Erro!</h3> Não foi possível excluir o usuário.";
+        echo "<h3>Erro!</h3> Não foi possível alterar, tente novamente.";
     }
     ?>
-    <button class="button"><a href="listausuarios.php">Voltar</a></button>
+     <button class="button"><a href="listamarcas.php">Voltar</a></button>
 </div>
 
 </body>
 </html>
-
-
- 
- 

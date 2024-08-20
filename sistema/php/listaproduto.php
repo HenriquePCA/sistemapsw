@@ -37,14 +37,13 @@
         }
         
             </style>
-    <title>Lista de Usuários</title>
-    
+    <title>Lista de Produtos</title>
 </head>
 <body>
 
 <?php 
 require_once('conexao.php');
-$retorno = $conexao->prepare('SELECT * FROM usuario');
+$retorno = $conexao->prepare('SELECT * FROM produto');
 $retorno->execute();
 ?>     
 
@@ -85,35 +84,40 @@ $retorno->execute();
         </nav>
     </header>
 
-<h3>Lista de Usuários</h3>
-<table> 
+<h3>Lista de Produtos</h3> <br> <br>
+<table class="tabela-fornecedores" > 
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Telefone</th>
-            <th>Data Nascimento</th>
-            <th>Email</th>
-            <th>Alterar</th>
-            <th>Excluir</th>
+       
+        <th>Modelo</th>
+            <th>Marca</th>
+            <th>Ano</th>
+            <th>Cor</th>
+            <th>Tipo</th>
+            <th>Preço</th>
+            <th>Imagem</th>
+        
         </tr>
     </thead>
     <tbody>
         <?php foreach($retorno->fetchAll() as $value) { ?>
             <tr>
-                <td><?php echo $value['id'] ?></td> 
-                <td><?php echo $value['nome'] ?></td> 
-                <td><?php echo $value['telefone'] ?></td> 
-                <td><?php echo $value['nascimento'] ?></td> 
-                <td><?php echo $value['email'] ?></td> 
+          
+            <td><?php echo $value['modelo']; ?></td>
+                <td><?php echo $value['marca']; ?></td>
+                <td><?php echo $value['ano']; ?></td>
+                <td><?php echo $value['cor']; ?></td>
+                <td><?php echo $value['tipo']; ?></td>
+                <td><?php echo $value['preco']; ?></td>
+                <td><?php echo $value['imagem']; ?></td>
                 <td>
-                    <form method="POST" action="altcadastro.php">
+                    <form method="POST" action="altproduto.php">
                         <input name="id" type="hidden" value="<?php echo $value['id']; ?>"/>
                         <button class="button" type="submit">Alterar</button>
                     </form>
                 </td> 
                 <td>
-                    <form method="POST" action="deleteUser.php">
+                    <form method="POST" action="deleteproduto.php">
                         <input name="id" type="hidden" value="<?php echo $value['id']; ?>"/>
                         <button class="button" type="submit">Excluir</button>
                     </form>

@@ -160,7 +160,6 @@
             </style>
 </head>
 <body>
-
 <header>
         <nav>
             <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
@@ -204,22 +203,18 @@
 
     $id = $_POST['id'];
 
-    $sql = "DELETE FROM usuario WHERE id = :id";
+    $sql = "DELETE FROM produto WHERE id = :id";
     $sqlcombanco = $conexao->prepare($sql);
     $sqlcombanco->bindParam(':id', $id, PDO::PARAM_INT);
 
     if ($sqlcombanco->execute()) {
-        echo "<h3>Usuário excluído com sucesso!</h3>";
+        echo "<h3>Modelo excluído com sucesso!</h3>";
     } else {
-        echo "<h3>Erro!</h3> Não foi possível excluir o usuário.";
+        echo "<h3>Erro!</h3> Não foi possível excluir o modelo.";
     }
     ?>
-    <button class="button"><a href="listausuarios.php">Voltar</a></button>
+    <button class="button"><a href="listaproduto.php">Voltar</a></button>
 </div>
 
 </body>
 </html>
-
-
- 
- 

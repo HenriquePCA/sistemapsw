@@ -4,7 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style1.css">
+    <title>Lista de Marcas</title>
     <style>
+        .tabela-fornecedores {
+    width: 80%;
+    margin: 0 auto; 
+    font-size: 12px;
+    
+}
+    </style>
+
+<style>
         
         .dropdown {
             position: relative;
@@ -37,14 +47,13 @@
         }
         
             </style>
-    <title>Lista de Usuários</title>
-    
+  
 </head>
 <body>
 
 <?php 
 require_once('conexao.php');
-$retorno = $conexao->prepare('SELECT * FROM usuario');
+$retorno = $conexao->prepare('SELECT * FROM marca');
 $retorno->execute();
 ?>     
 
@@ -85,35 +94,34 @@ $retorno->execute();
         </nav>
     </header>
 
-<h3>Lista de Usuários</h3>
-<table> 
+<h3>Lista de Marcas</h3> <br> <br>
+<table class="tabela-fornecedores" > 
     <thead>
         <tr>
-            <th>ID</th>
             <th>Nome</th>
-            <th>Telefone</th>
-            <th>Data Nascimento</th>
-            <th>Email</th>
+            <th>Website</th>
+            <th>Status</th>
+            
             <th>Alterar</th>
             <th>Excluir</th>
+        
         </tr>
     </thead>
     <tbody>
         <?php foreach($retorno->fetchAll() as $value) { ?>
             <tr>
-                <td><?php echo $value['id'] ?></td> 
-                <td><?php echo $value['nome'] ?></td> 
-                <td><?php echo $value['telefone'] ?></td> 
-                <td><?php echo $value['nascimento'] ?></td> 
-                <td><?php echo $value['email'] ?></td> 
+                <td><?php echo $value['nome']; ?></td>
+                <td><?php echo $value['website']; ?></td>
+                <td><?php echo $value['estatus']; ?></td>
+
                 <td>
-                    <form method="POST" action="altcadastro.php">
+                    <form method="POST" action="altmarca.php">
                         <input name="id" type="hidden" value="<?php echo $value['id']; ?>"/>
                         <button class="button" type="submit">Alterar</button>
                     </form>
                 </td> 
                 <td>
-                    <form method="POST" action="deleteUser.php">
+                    <form method="POST" action="deletemarca.php">
                         <input name="id" type="hidden" value="<?php echo $value['id']; ?>"/>
                         <button class="button" type="submit">Excluir</button>
                     </form>

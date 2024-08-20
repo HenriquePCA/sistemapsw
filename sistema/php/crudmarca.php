@@ -3,8 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style1.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Crud Marca</title>
     <style>
+        .success-message {
+            color: white;
+            text-align: center;
+            margin-top: 150px;
+        }
+
+        .success-button {
+            display: block;
+            margin: 30px auto;
+            padding: 10px 20px;
+            background-color: rgb(0, 51, 160);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            width: 300px;
+        }
+
+        .success-button:hover {
+            background-color: transparent;
+            border: 2px solid rgb(0, 51, 160);
+        }
+    </style>
+
+<style>
         
         .dropdown {
             position: relative;
@@ -37,16 +63,8 @@
         }
         
             </style>
-    <title>Lista de Usuários</title>
-    
 </head>
 <body>
-
-<?php 
-require_once('conexao.php');
-$retorno = $conexao->prepare('SELECT * FROM usuario');
-$retorno->execute();
-?>     
 
 <header>
         <nav>
@@ -84,46 +102,30 @@ $retorno->execute();
             </div>
         </nav>
     </header>
+<?php
+require_once("conexao.php");
 
-<h3>Lista de Usuários</h3>
-<table> 
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Telefone</th>
-            <th>Data Nascimento</th>
-            <th>Email</th>
-            <th>Alterar</th>
-            <th>Excluir</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach($retorno->fetchAll() as $value) { ?>
-            <tr>
-                <td><?php echo $value['id'] ?></td> 
-                <td><?php echo $value['nome'] ?></td> 
-                <td><?php echo $value['telefone'] ?></td> 
-                <td><?php echo $value['nascimento'] ?></td> 
-                <td><?php echo $value['email'] ?></td> 
-                <td>
-                    <form method="POST" action="altcadastro.php">
-                        <input name="id" type="hidden" value="<?php echo $value['id']; ?>"/>
-                        <button class="button" type="submit">Alterar</button>
-                    </form>
-                </td> 
-                <td>
-                    <form method="POST" action="deleteUser.php">
-                        <input name="id" type="hidden" value="<?php echo $value['id']; ?>"/>
-                        <button class="button" type="submit">Excluir</button>
-                    </form>
-                </td> 
-            </tr>
-        <?php } ?> 
-    </tbody>
-</table>
+$nome= $_POST['nome'];
+$website= $_POST['website'];
+$estatus= $_POST['estatus'];
 
-<button class="button button3" style="display: block; margin: 20px auto;"><a href="index.php">Voltar</a></button>
+
+
+    $sql = "INSERT INTO marca (nome, website, estatus) VALUES ('$modelo', '$website', '$estatus')";
+    $sqlcombanco = $conexao->prepare($sql);
+
+    if ($sqlcombanco->execute()) {
+        echo "<div class='success-message'>";
+        echo "<h3>Ok, a marca $nome foi incluída com sucesso!</h3>";
+        echo "<a href='listamarcas.php' class='success-button'>Visualizar lista de marcas</a>";
+        echo "</div>";
+    }
+
+    else {
+        echo "<h3>A marca não foi inserida.</h3>";
+    }
+
+?>
 
 </body>
 </html>

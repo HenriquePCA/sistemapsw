@@ -3,10 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultado da Exclusão</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Alterar Produto</title>
     <style>
+
+header {
+  text-decoration: none;
+    background-color: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    font-weight: 700;
+    z-index: 1000; 
+}
+
+header nav {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+}
+
+header nav #logo {
+    margin-top: 5px;
+    width: 150px;
+}
+
+header nav .menu {
+    display: flex;
+    align-items: center;
+}
+
+header nav .menu a {
+    color: #F2F2F2;
+    margin-left: 30px;
+    position: relative;
+}
+
+header nav .menu a::after {
+    content: '' ;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background-color: rgb(0, 51, 160);
+    transition: 0.4s;
+}
+
+header nav .menu a:hover::after {
+    width: 100%;
+}
+
+header nav .icones a i {
+    font-size: 22px;
+    margin-left: 10px;
+}
+
+header nav .icones a i:hover {
+    transform: scale(1.3);
+    color: rgb(0, 51, 160);
+    transition: 0.3s;
+}
+
+a:-webkit-any-link {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+h3{
+
+    color: white;
+    text-align: center;
+    margin-top: 140px;
+}
+
+
+
         body {
             font-family: Arial, sans-serif;
+            text-decoration: none;
             background-color: black;
             margin: 0;
             padding: 20px;
@@ -14,91 +93,31 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            text-align: center;
         }
 
-        header {
-            text-decoration: none;
-            background-color: black;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            font-weight: 700;
-            z-index: 1000; 
+        form {
+          margin-top: 100px;
+          width: 50%;
+          display: flex;
+          flex-direction: column;
         }
 
-        header nav {
-            width: 90%;
-            margin: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 100px;
-        }
-
-        header nav #logo {
-            margin-top: 5px;
-            width: 150px;
-        }
-
-        header nav .menu {
-            display: flex;
-            align-items: center;
-        }
-
-        header nav .menu a {
-            color: #F2F2F2;
-            margin-left: 30px;
-            position: relative;
-        }
-
-        header nav .menu a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0%;
-            height: 2px;
-            background-color: rgb(0, 51, 160);
-            transition: 0.4s;
-        }
-
-        header nav .menu a:hover::after {
-            width: 100%;
-        }
-
-        header nav .icones a i {
-            font-size: 22px;
-            margin-left: 10px;
-        }
-
-        header nav .icones a i:hover {
-            transform: scale(1.3);
-            color: rgb(0, 51, 160);
-            transition: 0.3s;
-        }
-
-        .message-box {
-            color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 350px;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        h3 {
-            color: white;
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="date"],
+        input[type="tel"] {
+            width: 30%%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            box-sizing: border-box;
             margin-bottom: 20px;
+            border: 1px solid #f2f2f2;
+            font-size: 16px;
         }
 
-        .button {
+        input[type="submit"] {
             background-color: rgb(0, 51, 160);
             color: white;
             border: none;
@@ -107,21 +126,19 @@
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
-            margin: 20px 0;
+            margin: 12px 0;
             cursor: pointer;
             border-radius: 4px;
-            width: 60%;
+            width: 100%;
             transition: 0.3s;
+
+            
         }
 
-        .button a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .button:hover {
+        input[type="submit"]:hover {
             background-color: transparent;
             border: 2px solid rgb(0, 51, 160);
+            
         }
     </style>
 
@@ -197,29 +214,38 @@
             </div>
         </nav>
     </header>
+<?php
 
-<div class="message-box">
-    <?php
-    require_once("conexao.php");
-
+    require_once('conexao.php');
+   
     $id = $_POST['id'];
+    $sql = "SELECT * FROM produto WHERE id = :id";
+    $retorno = $conexao->prepare($sql);
+    $retorno->bindParam(':id', $id, PDO::PARAM_INT);
+    $retorno->execute();
+    $array_retorno = $retorno->fetch();
+   
+    $modelo = $array_retorno['modelo'];
+    $marca = $array_retorno['marca'];
+    $ano = $array_retorno['ano'];
+    $cor = $array_retorno['cor'];
+    $tipo = $array_retorno['tipo'];
+    $preco = $array_retorno['preco'];
+    $imagem = $array_retorno['imagem'];
+?>
 
-    $sql = "DELETE FROM usuario WHERE id = :id";
-    $sqlcombanco = $conexao->prepare($sql);
-    $sqlcombanco->bindParam(':id', $id, PDO::PARAM_INT);
 
-    if ($sqlcombanco->execute()) {
-        echo "<h3>Usuário excluído com sucesso!</h3>";
-    } else {
-        echo "<h3>Erro!</h3> Não foi possível excluir o usuário.";
-    }
-    ?>
-    <button class="button"><a href="listausuarios.php">Voltar</a></button>
-</div>
+<form class="alterar" method="POST" action="alterproduto.php">
+    <input type="text" name="modelo" id="modelo" value="<?php echo $modelo ?>" required>
+    <input type="hidden" name="id" id="id" value="<?php echo $id ?>">
+    <input type="text" name="marca" id="marca" value="<?php echo $marca ?>" required>
+    <input type="number" name="ano" id="ano" value="<?php echo $ano ?>" required>
+    <input type="text" name="cor" id="cor" value="<?php echo $cor ?>" required>
+    <input type="text" name="tipo" id="tipo" value="<?php echo $tipo ?>" required>
+    <input type="number" name="preco" id="preco" value="<?php echo $preco ?>" required>
+    <input type="file" name="imagem" id="imagem" value="<?php echo $imagem ?>" required>
+    <input type="submit" name="update" value="Alterar">
+</form>
 
 </body>
 </html>
-
-
- 
- 

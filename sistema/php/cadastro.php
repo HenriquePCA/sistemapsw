@@ -4,8 +4,6 @@ $mensagem = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST['nome'];
 
-    // Seu código para incluir o usuário no banco de dados vai aqui
-
     $mensagem = "O usuário $nome foi incluído com sucesso.";
 }
 ?>
@@ -17,18 +15,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            left: 0;
+            background-color: black;
+            min-width: 160px;
+            z-index: 1;
+            flex-direction: column;
+        }
+        
+        .dropdown-content a {
+            color: rgb(255, 255, 255);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: transparent;
+            
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+            </style>
     <title>Cadastro</title>
 </head>
 <body>
 
 <header>
         <nav>
-        <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
+            <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
             <div class="menu">
                 <a href="index.php">Início</a>
-                <a href="marcas.php">Marcas</a>
-                <a href="ofertas.php">Ofertas</a>
-                <a href="fale.php">Fale conosco</a>
+                <div class="dropdown">
+                <a href="produtos.php">Produtos</a>
+                <div class="dropdown-content">
+                     <a href="cadastroproduto.php">Cadastro</a>
+                     <a href="listaproduto.php">Lista</a>
+                  </div>
+                  </div>
+                <div class="dropdown">
+                  <a href="fornecedores.php">Fornecedores</a>
+                    <div class="dropdown-content">
+                     <a href="fornecedores.php">Cadastro</a>
+                     <a href="listafornecedor.php">Lista</a>
+                  </div>
+                  </div>
+                  <div class="dropdown">
+                <a href="listamarca.php">Marcas</a>
+                <div class="dropdown-content">
+                     <a href="cadastromarca.php">Cadastro</a>
+                     <a href="listamarca.php">Lista</a>
+                  </div>
+                  </div>
                 <a href="sobre.php">Sobre</a>
                 <a href="../php/cadastro.php">Cadastre-se</a>
             </div>
