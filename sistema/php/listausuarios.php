@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        function confirmarExclusao(nome) {
+            return confirm('Quer mesmo excluir o usuário ' + nome + '?');
+        }
+    </script>
     <link rel="stylesheet" href="../css/style1.css">
     <style>
         
@@ -113,11 +118,11 @@ $retorno->execute();
                     </form>
                 </td> 
                 <td>
-                    <form method="POST" action="deleteUser.php">
-                        <input name="id" type="hidden" value="<?php echo $value['id']; ?>"/>
-                        <button class="button" type="submit">Excluir</button>
-                    </form>
-                </td> 
+                        <form method="POST" action="deleteUser.php" onsubmit="return confirmarExclusao('<?php echo htmlspecialchars($value['nome']); ?>')">
+                            <input name="id" type="hidden" value="<?php echo htmlspecialchars($value['id']); ?>"/>
+                            <button class="button" type="submit">Excluir</button>
+                        </form>
+                    </td> 
             </tr>
         <?php } ?> 
     </tbody>

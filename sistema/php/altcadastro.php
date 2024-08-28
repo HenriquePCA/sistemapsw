@@ -174,6 +174,16 @@ h3{
             display: block;
         }
         
+        label{
+            color: white;
+        }
+
+        h2{
+            color: white;
+            text-align: center;
+            margin-top: 250px;
+            margin-bottom: 60px;
+        }
             </style>
 </head>
 <body>
@@ -235,12 +245,26 @@ h3{
 
 
 <form class="alterar" method="POST" action="alterUser.php">
+
+<h2>Alterar dados do usuário</h2>
+    <label for="nome">Nome Completo:</label>
     <input type="text" name="nome" id="nome" value="<?php echo $nome ?>" required>
+
     <input type="hidden" name="id" id="id" value="<?php echo $id ?>">
+
+    <label for="email">Email</label>
     <input type="email" name="email" id="email" value="<?php echo $email ?>" required>
+
+    <label for="senha">Senha:</label>
     <input type="password" name="senha" id="senha" value="<?php echo $senha ?>" required>
+
+    <label for="confirmar_senha">Confirmar senha:</label>
     <input type="password" name="confirmar_senha" id="confirmar_senha" value="<?php echo $senha ?>" required>
+
+    <label for="nascimento">Data de nascimento:</label>
     <input type="date" name="nascimento" id="nascimento" value="<?php echo $nascimento ?>" required>
+
+    <label for="telefone">Telefone:</label>
     <input type="tel" name="telefone" id="telefone" value="<?php echo $telefone ?>" required>
     <input type="submit" name="update" value="Alterar">
 </form>

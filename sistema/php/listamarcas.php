@@ -7,11 +7,18 @@
     <title>Lista de Marcas</title>
     <style>
         .tabela-fornecedores {
-    width: 80%;
-    margin: 0 auto; 
-    font-size: 12px;
-    
-}
+            width: 80%;
+            margin: 0 auto;
+            font-size: 12px;
+        }
+
+        .status-ativo {
+            color: green;
+        }
+
+        .status-inativo {
+            color: red;
+        }
     </style>
 
 <style>
@@ -47,7 +54,6 @@
         }
         
             </style>
-  
 </head>
 <body>
 
@@ -58,53 +64,52 @@ $retorno->execute();
 ?>     
 
 <header>
-        <nav>
-            <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
-            <div class="menu">
-                <a href="index.php">Início</a>
-                <div class="dropdown">
+    <nav>
+        <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt=""></a>
+        <div class="menu">
+            <a href="index.php">Início</a>
+            <div class="dropdown">
                 <a href="produtos.php">Produtos</a>
                 <div class="dropdown-content">
-                     <a href="cadastroproduto.php">Cadastro</a>
-                     <a href="listaproduto.php">Lista</a>
-                  </div>
-                  </div>
-                <div class="dropdown">
-                  <a href="fornecedores.php">Fornecedores</a>
-                    <div class="dropdown-content">
-                     <a href="fornecedores.php">Cadastro</a>
-                     <a href="listafornecedor.php">Lista</a>
-                  </div>
-                  </div>
-                  <div class="dropdown">
+                    <a href="cadastroproduto.php">Cadastro</a>
+                    <a href="listaproduto.php">Lista</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="fornecedores.php">Fornecedores</a>
+                <div class="dropdown-content">
+                    <a href="fornecedores.php">Cadastro</a>
+                    <a href="listafornecedor.php">Lista</a>
+                </div>
+            </div>
+            <div class="dropdown">
                 <a href="listamarcas.php">Marcas</a>
                 <div class="dropdown-content">
-                     <a href="cadastromarca.php">Cadastro</a>
-                     <a href="listamarcas.php">Lista</a>
-                  </div>
-                  </div>
-                <a href="sobre.php">Sobre</a>
-                <a href="../php/cadastro.php">Cadastre-se</a>
+                    <a href="cadastromarca.php">Cadastro</a>
+                    <a href="listamarcas.php">Lista</a>
+                </div>
             </div>
+            <a href="sobre.php">Sobre</a>
+            <a href="../php/cadastro.php">Cadastre-se</a>
+        </div>
 
-            <div class="icones">
-                <a href="#"><i class="fab fa-facebook-f" style="color: #F2F2F2;"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in" style="color: #F2F2F2;"></i></a>
-            </div>
-        </nav>
-    </header>
+        <div class="icones">
+            <a href="#"><i class="fab fa-facebook-f" style="color: #F2F2F2;"></i></a>
+            <a href="#" class="social"><i class="fab fa-linkedin-in" style="color: #F2F2F2;"></i></a>
+        </div>
+    </nav>
+</header>
 
-<h3>Lista de Marcas</h3> <br> <br>
-<table class="tabela-fornecedores" > 
+<h3>Lista de Marcas</h3> 
+<br><br>
+<table class="tabela-fornecedores"> 
     <thead>
         <tr>
             <th>Nome</th>
             <th>Website</th>
             <th>Status</th>
-            
             <th>Alterar</th>
             <th>Excluir</th>
-        
         </tr>
     </thead>
     <tbody>
@@ -112,8 +117,15 @@ $retorno->execute();
             <tr>
                 <td><?php echo $value['nome']; ?></td>
                 <td><?php echo $value['website']; ?></td>
-                <td><?php echo $value['estatus']; ?></td>
-
+                <td>
+                    <form method="POST" action="alterar_status.php">
+                        <input name="id" type="hidden" value="<?php echo $value['id']; ?>"/>
+                        <select name="estatus" onchange="this.form.submit()" class="<?php echo ($value['estatus'] == 'Ativo') ? 'status-ativo' : 'status-inativo'; ?>">
+                            <option value="Ativo" <?php if($value['estatus'] == 'Ativo') echo 'selected'; ?>>Ativo</option>
+                            <option value="Inativo" <?php if($value['estatus'] == 'Inativo') echo 'selected'; ?>>Inativo</option>
+                        </select>
+                    </form>
+                </td>
                 <td>
                     <form method="POST" action="altmarca.php">
                         <input name="id" type="hidden" value="<?php echo $value['id']; ?>"/>
@@ -121,8 +133,8 @@ $retorno->execute();
                     </form>
                 </td> 
                 <td>
-                    <form method="POST" action="deletemarca.php">
-                        <input name="id" type="hidden" value="<?php echo $value['id']; ?>"/>
+                    <form method="POST" action="deletemarca.php" onsubmit="return confirmarExclusao('<?php echo htmlspecialchars($value['nome']); ?>')">
+                        <input name="id" type="hidden" value="<?php echo htmlspecialchars($value['id']); ?>"/>
                         <button class="button" type="submit">Excluir</button>
                     </form>
                 </td> 

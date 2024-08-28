@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <title>Alterar Produto</title>
     <style>
 
 header {
@@ -102,22 +101,15 @@ h3{
           flex-direction: column;
         }
 
+        label{
+            color: white;
+        }
+
         input[type="text"],
         input[type="email"],
         input[type="password"],
         input[type="date"],
         input[type="tel"] {
-            width: 30%%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-            border: 1px solid #f2f2f2;
-            font-size: 16px;
-        }
-
-        input[type="number" i] {
             width: 30%%;
             padding: 10px;
             margin: 10px 0;
@@ -184,106 +176,108 @@ h3{
         .dropdown:hover .dropdown-content {
             display: block;
         }
-        
-        label{
-            color: white;
-        }
 
-        h2{
+        #h2{
             color: white;
             text-align: center;
-            margin-top:200px;
+            margin-top: 450px;
             margin-bottom: 60px;
         }
-
+        
             </style>
+</head>
+    <title>Alterar Cadastro de Fornecedor</title>
 </head>
 <body>
 
 <header>
-        <nav>
-            <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
-            <div class="menu">
-                <a href="index.php">Início</a>
-                <div class="dropdown">
+    <nav>
+        <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt=""></a>
+        <div class="menu">
+            <a href="index.php">Início</a>
+            <div class="dropdown">
                 <a href="produtos.php">Produtos</a>
                 <div class="dropdown-content">
-                     <a href="cadastroproduto.php">Cadastro</a>
-                     <a href="listaproduto.php">Lista</a>
-                  </div>
-                  </div>
-                <div class="dropdown">
-                  <a href="fornecedores.php">Fornecedores</a>
-                    <div class="dropdown-content">
-                     <a href="fornecedores.php">Cadastro</a>
-                     <a href="listafornecedor.php">Lista</a>
-                  </div>
-                  </div>
-                  <div class="dropdown">
+                    <a href="cadastroproduto.php">Cadastro</a>
+                    <a href="listaproduto.php">Lista</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="fornecedores.php">Fornecedores</a>
+                <div class="dropdown-content">
+                    <a href="fornecedores.php">Cadastro</a>
+                    <a href="listafornecedor.php">Lista</a>
+                </div>
+            </div>
+            <div class="dropdown">
                 <a href="listamarcas.php">Marcas</a>
                 <div class="dropdown-content">
-                     <a href="cadastromarca.php">Cadastro</a>
-                     <a href="listamarcas.php">Lista</a>
-                  </div>
-                  </div>
-                <a href="sobre.php">Sobre</a>
-                <a href="../php/cadastro.php">Cadastre-se</a>
+                    <a href="cadastromarca.php">Cadastro</a>
+                    <a href="listamarcas.php">Lista</a>
+                </div>
             </div>
+            <a href="sobre.php">Sobre</a>
+            <a href="../php/cadastro.php">Cadastre-se</a>
+        </div>
 
-            <div class="icones">
-                <a href="#"><i class="fab fa-facebook-f" style="color: #F2F2F2;"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in" style="color: #F2F2F2;"></i></a>
-            </div>
-        </nav>
-    </header>
+        <div class="icones">
+            <a href="#"><i class="fab fa-facebook-f" style="color: #F2F2F2;"></i></a>
+            <a href="#" class="social"><i class="fab fa-linkedin-in" style="color: #F2F2F2;"></i></a>
+        </div>
+    </nav>
+</header>
+
+
+
 <?php
 
-    require_once('conexao.php');
-   
-    $id = $_POST['id'];
-    $sql = "SELECT * FROM produto WHERE id = :id";
-    $retorno = $conexao->prepare($sql);
-    $retorno->bindParam(':id', $id, PDO::PARAM_INT);
-    $retorno->execute();
-    $array_retorno = $retorno->fetch();
-   
-    $modelo = $array_retorno['modelo'];
-    $marca = $array_retorno['marca'];
-    $ano = $array_retorno['ano'];
-    $cor = $array_retorno['cor'];
-    $tipo = $array_retorno['tipo'];
-    $preco = $array_retorno['preco'];
-    $imagem = $array_retorno['imagem'];
+require_once('conexao.php');
+
+$id = $_POST['id'];
+$sql = "SELECT * FROM fornecedor WHERE id = :id";
+$retorno = $conexao->prepare($sql);
+$retorno->bindParam(':id', $id, PDO::PARAM_INT);
+$retorno->execute();
+$array_retorno = $retorno->fetch(PDO::FETCH_ASSOC);
+
 ?>
 
 
-<form class="alterar" method="POST" action="alterproduto.php">
+<form class="alterar" method="POST" action="alterfornecedor.php">
+    <h2 id="h2">Alterar dados do fornecedor</h2>
+    <label for="nome">Nome da Empresa:</label>
+    <input type="text" name="nome" id="nome" value="<?php echo htmlspecialchars($array_retorno['nome']); ?>" required>
 
-<h2>Alterar dados do produto:</h2>
-     <label for="modelo">Modelo:</label>
-    <input type="text" name="modelo" id="modelo" value="<?php echo $modelo ?>" required>
+    <label for="cnpj">CNPJ:</label>
+    <input type="text" name="cnpj" id="cnpj" value="<?php echo htmlspecialchars($array_retorno['cnpj']); ?>" required>
 
-    <input type="hidden" name="id" id="id" value="<?php echo $id ?>">
+    <label for="endereco">Endereço:</label>
+    <input type="text" name="endereco" id="endereco" value="<?php echo htmlspecialchars($array_retorno['endereco']); ?>" required>
 
-    <label for="marca">Marca:</label>
-    <input type="text" name="marca" id="marca" value="<?php echo $marca ?>" required>
+    <label for="cidade">Cidade:</label>
+    <input type="text" name="cidade" id="cidade" value="<?php echo htmlspecialchars($array_retorno['cidade']); ?>" required>
 
-    <label for="ano">Ano:</label>
-    <input type="number" name="ano" id="ano" value="<?php echo $ano ?>" required>
+    <label for="estado">Estado:</label>
+    <input type="text" name="estado" id="estado" value="<?php echo htmlspecialchars($array_retorno['estado']); ?>" required>
 
-    <label for="cor">Cor:</label>
-    <input type="text" name="cor" id="cor" value="<?php echo $cor ?>" required>
+    <label for="cep">CEP:</label>
+    <input type="text" name="cep" id="cep" value="<?php echo htmlspecialchars($array_retorno['cep']); ?>" required>
 
-    <label for="tipo">Tipo:</label>
-    <input type="text" name="tipo" id="tipo" value="<?php echo $tipo ?>" required>
+    <label for="telefone">Telefone:</label>
+    <input type="text" name="telefone" id="telefone" value="<?php echo htmlspecialchars($array_retorno['telefone']); ?>" required>
 
-    <label for="preco">Preço:</label>
-    <input type="number" name="preco" id="preco" value="<?php echo $preco ?>" required>
+    <label for="email">E-mail:</label>
+    <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($array_retorno['email']); ?>" required>
 
-    <label for="imagem">Imagem do produto:</label>
-    <input type="file" name="imagem" id="imagem" value="<?php echo $imagem ?>" required>
+    <label for="representante">Nome do Representante:</label>
+    <input type="text" name="representante" id="representante" value="<?php echo htmlspecialchars($array_retorno['representante']); ?>" required>
+
+    <input name="id" type="hidden" value="<?php echo htmlspecialchars($array_retorno['id']); ?>" />
+
     <input type="submit" name="update" value="Alterar">
 </form>
 
 </body>
 </html>
+
+

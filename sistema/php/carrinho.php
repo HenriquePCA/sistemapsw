@@ -1,105 +1,141 @@
 <?php
 session_start();
+require_once('conexao.php');
 
-$carrinho = $_SESSION['carrinho'] ?? [];
+if (!isset($_SESSION['carrinho']) || empty($_SESSION['carrinho'])) {
+    echo "Seu carrinho está vazio!";
+    exit;
+}
+
+$carrinho = $_SESSION['carrinho'];
+$total = 0;
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrinho de Compras</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #000;
-            color: #FFF;
-            padding: 20px;
+        
+        .dropdown {
+            position: relative;
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            left: 0;
+            background-color: black;
+            min-width: 160px;
+            z-index: 1;
+            flex-direction: column;
         }
-
-        table, th, td {
-            border: 1px solid #FFF;
+        
+        .dropdown-content a {
+            color: rgb(255, 255, 255);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
         }
-
-        th, td {
-            padding: 10px;
-            text-align: center;
+        
+        .dropdown-content a:hover {
+            background-color: transparent;
+            
         }
-
-        th {
-            background-color: #444;
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
         }
-
-        .total {
-            font-size: 24px;
-            font-weight: bold;
-            text-align: right;
-            margin-top: 20px;
-        }
-
-        .checkout {
-            background-color: rgb(0, 51, 160);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 4px;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        .checkout:hover {
-            background-color: #FFF;
-            color: rgb(0, 51, 160);
-            border: 2px solid rgb(0, 51, 160);
-        }
-    </style>
+        
+            </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho</title>
+    <link rel="stylesheet" href="../css/style1.css">
 </head>
 <body>
 
-<h1>Carrinho de Compras</h1>
+<header>
+        <nav>
+            <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
+            <div class="menu">
+                <a href="index.php">Início</a>
+                <div class="dropdown">
+                <a href="produtos.php">Produtos</a>
+                <div class="dropdown-content">
+                     <a href="cadastroproduto.php">Cadastro</a>
+                     <a href="listaproduto.php">Lista</a>
+                  </div>
+                  </div>
+                <div class="dropdown">
+                  <a href="fornecedores.php">Fornecedores</a>
+                    <div class="dropdown-content">
+                     <a href="fornecedores.php">Cadastro</a>
+                     <a href="listafornecedor.php">Lista</a>
+                  </div>
+                  </div>
+                  <div class="dropdown">
+                <a href="listamarcas.php">Marcas</a>
+                <div class="dropdown-content">
+                     <a href="cadastromarca.php">Cadastro</a>
+                     <a href="listamarcas.php">Lista</a>
+                  </div>
+                  </div>
+                <a href="sobre.php">Sobre</a>
+                <a href="../php/cadastro.php">Cadastre-se</a>
+            </div>
 
-<?php if (count($carrinho) > 0): ?>
+            <div class="icones">
+                <a href="#"><i class="fab fa-facebook-f" style="color: #F2F2F2;"></i></a>
+                <a href="#" class="social"><i class="fab fa-linkedin-in" style="color: #F2F2F2;"></i></a>
+            </div>
+        </nav>
+    </header>
+
+<main>
+    <h1>Seu Carrinho</h1>
     <table>
         <thead>
             <tr>
                 <th>Produto</th>
+                <th>Preço</th>
                 <th>Quantidade</th>
-                <th>Preço Unitário</th>
                 <th>Total</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            <?php 
-            $total = 0;
-            foreach ($carrinho as $item): 
-                $subtotal = $item['preco'] * $item['quantidade'];
-                $total += $subtotal;
-            ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($item['modelo']); ?></td>
-                    <td><?php echo $item['quantidade']; ?></td>
-                    <td>R$ <?php echo number_format($item['preco'], 2, ',', '.'); ?></td>
-                    <td>R$ <?php echo number_format($subtotal, 2, ',', '.'); ?></td>
-                </tr>
+            <?php foreach ($carrinho as $id => $quantidade): ?>
+                <?php
+    
+                $sql = "SELECT * FROM produto WHERE id = :id";
+                $stmt = $conexao->prepare($sql);
+                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+                $stmt->execute();
+                $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($produto):
+                    $total_item = $produto['preco'] * $quantidade;
+                    $total += $total_item;
+                ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($produto['modelo']); ?></td>
+                        <td>R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?></td>
+                        <td><?php echo $quantidade; ?></td>
+                        <td>R$ <?php echo number_format($total_item, 2, ',', '.'); ?></td>
+                        <td>
+                            <a href="remover_carrinho.php?id=<?php echo $id; ?>">Remover</a>
+                        </td>
+                    </tr>
+                <?php endif; ?>
             <?php endforeach; ?>
         </tbody>
     </table>
 
-    <div class="total">Total: R$ <?php echo number_format($total, 2, ',', '.'); ?></div>
+    <h2>Total: R$ <?php echo number_format($total, 2, ',', '.'); ?></h2>
 
-    <button class="checkout">Finalizar Compra</button>
-
-<?php else: ?>
-    <p>Seu carrinho está vazio.</p>
-<?php endif; ?>
+    <a href="finalizar_compra.php" class="btn-finalizar">Finalizar Compra</a>
+    <a href="produtos.php" class="btn-continuar">Continuar Comprando</a>
+</main>
 
 </body>
 </html>

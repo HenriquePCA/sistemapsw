@@ -208,13 +208,14 @@ main {
                 <p><strong>Tipo:</strong> <?php echo $tipo; ?></p>
                 <p><strong>Preço:</strong> R$ <?php echo $preco; ?></p>
                 
-                <!-- Formulário para adicionar ao carrinho -->
+                
+
                 <form method="POST" action="adicionar_carrinho.php">
-                    <input type="hidden" name="id" value="<?php echo $id; ?>">
-                    <a href="addcarrinho.php" class="btn-adicionar-carrinho">Adicionar ao Carrinho</a>
-                    <a href="produtos.php" class="btn-voltar">Voltar</a>
-                    
-                </form>
+    <input type="hidden" name="id" value="<?php echo $id; ?>">
+    <button type="submit" class="btn-adicionar-carrinho">Adicionar ao Carrinho</button>
+    <a href="produtos.php" class="btn-voltar">Voltar</a>
+</form>
+
             </div>
         </div>
     </main>

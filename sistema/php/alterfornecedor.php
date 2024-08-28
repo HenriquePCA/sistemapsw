@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultado da Exclusão</title>
+    <title>Resultado da Alteração</title>
     <style>
-        body {
+              body {
             font-family: Arial, sans-serif;
+            text-decoration: none;
             background-color: black;
             margin: 0;
             padding: 20px;
@@ -14,7 +14,6 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            text-align: center;
         }
 
         header {
@@ -54,7 +53,7 @@
         }
 
         header nav .menu a::after {
-            content: '';
+            content: '' ;
             position: absolute;
             bottom: -5px;
             left: 0;
@@ -94,6 +93,7 @@
         }
 
         h3 {
+            text-align: center;
             color: white;
             margin-bottom: 20px;
         }
@@ -123,11 +123,10 @@
             background-color: transparent;
             border: 2px solid rgb(0, 51, 160);
         }
-
-
+    
     </style>
-
-<style>
+    
+    <style>
         
         .dropdown {
             position: relative;
@@ -160,9 +159,10 @@
         }
         
             </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
 </head>
 <body>
-
 <header>
         <nav>
             <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
@@ -200,26 +200,44 @@
         </nav>
     </header>
 
-<div class="message-box">
-    <?php
-    require_once("conexao.php");
+    <div class="message-box">
 
-    $id = $_POST['id'];
+<?php
 
-    $sql = "DELETE FROM fornecedor WHERE id = :id";
-    $sqlcombanco = $conexao->prepare($sql);
-    $sqlcombanco->bindParam(':id', $id, PDO::PARAM_INT);
+require_once('conexao.php');
 
-    if ($sqlcombanco->execute()) {
-        echo "<h3>Fornecedor excluído com sucesso!</h3>";
-    } else {
-        echo "<h3>Erro!</h3> Não foi possível excluir o fornecedor.";
-    }
-    ?>
+$id = $_POST['id'];
+$nome = $_POST['nome'];
+$cnpj = $_POST['cnpj'];
+$endereco = $_POST['endereco'];
+$cidade = $_POST['cidade'];
+$estado = $_POST['estado'];
+$cep = $_POST['cep'];
+$telefone = $_POST['telefone'];
+$email = $_POST['email'];
+$representante = $_POST['representante'];
+
+$sql = "UPDATE fornecedor SET nome = :nome, cnpj = :cnpj, endereco = :endereco, cidade = :cidade, estado = :estado, cep = :cep, telefone = :telefone, email = :email, representante = :representante WHERE id = :id";
+$stmt = $conexao->prepare($sql);
+
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt->bindParam(':nome', $nome);
+$stmt->bindParam(':cnpj', $cnpj);
+$stmt->bindParam(':endereco', $endereco);
+$stmt->bindParam(':cidade', $cidade);
+$stmt->bindParam(':estado', $estado);
+$stmt->bindParam(':cep', $cep);
+$stmt->bindParam(':telefone', $telefone);
+$stmt->bindParam(':email', $email);
+$stmt->bindParam(':representante', $representante);
+
+if ($stmt->execute()) {
+    echo "Fornecedor atualizado com sucesso!";
+} else {
+    echo "Erro ao atualizar o fornecedor.";
+}
+?>
     <button class="button"><a href="listafornecedor.php">Voltar</a></button>
-</div>
-
+    </div>
 </body>
 </html>
-
-

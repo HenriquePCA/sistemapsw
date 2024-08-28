@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style1.css">
-    <title>Lista de Fornecedores</title>
-    <style>
+    <script>
+        function confirmarExclusao(nome) {
+            return confirm('Quer mesmo excluir o fornecedor ' + nome + '?');
+        }
+    </script>
+    <link rel="stylesheet" href="../css/style1.css"><style>
         .tabela-fornecedores {
     width: 80%;
     margin: 0 auto; 
@@ -47,15 +50,17 @@
         }
         
             </style>
-  
+    
+    <title>Lista de Fornecedores</title>
 </head>
 <body>
 
 <?php 
 require_once('conexao.php');
-$retorno = $conexao->prepare('SELECT * FROM fornecedor');
+$sql = 'SELECT * FROM fornecedor';
+$retorno = $conexao->prepare($sql);
 $retorno->execute();
-?>     
+?>
 
 <header>
         <nav>
@@ -94,8 +99,8 @@ $retorno->execute();
         </nav>
     </header>
 
-<h3>Lista de Fornecedores</h3> <br> <br>
-<table class="tabela-fornecedores" > 
+<h3>Lista de Fornecedores</h3> 
+<table class="tabela-fornecedores"> 
     <thead>
         <tr>
             <th>Nome</th>
@@ -105,39 +110,36 @@ $retorno->execute();
             <th>Estado</th>
             <th>CEP</th>
             <th>Telefone</th>
-            <th>Email</th>
+            <th>E-mail</th>
             <th>Representante</th>
-            <th>Senha</th>
             <th>Alterar</th>
             <th>Excluir</th>
-        
         </tr>
     </thead>
     <tbody>
         <?php foreach($retorno->fetchAll() as $value) { ?>
             <tr>
-                <td><?php echo $value['nome']; ?></td>
-                <td><?php echo $value['cnpj']; ?></td>
-                <td><?php echo $value['endereco']; ?></td>
-                <td><?php echo $value['cidade']; ?></td>
-                <td><?php echo $value['estado']; ?></td>
-                <td><?php echo $value['cep']; ?></td>
-                <td><?php echo $value['telefone']; ?></td>
-                <td><?php echo $value['email']; ?></td>
-                <td><?php echo $value['representante']; ?></td>
-                <td><?php echo $value['senha']; ?></td>
+                <td><?php echo htmlspecialchars($value['nome']); ?></td>
+                <td><?php echo htmlspecialchars($value['cnpj']); ?></td>
+                <td><?php echo htmlspecialchars($value['endereco']); ?></td>
+                <td><?php echo htmlspecialchars($value['cidade']); ?></td>
+                <td><?php echo htmlspecialchars($value['estado']); ?></td>
+                <td><?php echo htmlspecialchars($value['cep']); ?></td>
+                <td><?php echo htmlspecialchars($value['telefone']); ?></td>
+                <td><?php echo htmlspecialchars($value['email']); ?></td>
+                <td><?php echo htmlspecialchars($value['representante']); ?></td>
                 <td>
                     <form method="POST" action="altfornecedor.php">
-                        <input name="id" type="hidden" value="<?php echo $value['id']; ?>"/>
+                        <input name="id" type="hidden" value="<?php echo htmlspecialchars($value['id']); ?>"/>
                         <button class="button" type="submit">Alterar</button>
                     </form>
                 </td> 
                 <td>
-                    <form method="POST" action="deletefornecedor.php">
-                        <input name="id" type="hidden" value="<?php echo $value['id']; ?>"/>
-                        <button class="button" type="submit">Excluir</button>
-                    </form>
-                </td> 
+                        <form method="POST" action="deletefornecedor.php" onsubmit="return confirmarExclusao('<?php echo htmlspecialchars($value['nome']); ?>')">
+                            <input name="id" type="hidden" value="<?php echo htmlspecialchars($value['id']); ?>"/>
+                            <button class="button" type="submit">Excluir</button>
+                        </form>
+                    </td> 
             </tr>
         <?php } ?> 
     </tbody>
