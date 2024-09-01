@@ -100,7 +100,6 @@ $retorno->execute();
             <th>Cor</th>
             <th>Tipo</th>
             <th>Preço</th>
-            <th>Imagem</th>
         
         </tr>
     </thead>
@@ -114,7 +113,6 @@ $retorno->execute();
                 <td><?php echo $value['cor']; ?></td>
                 <td><?php echo $value['tipo']; ?></td>
                 <td><?php echo $value['preco']; ?></td>
-                <td><?php echo $value['imagem']; ?></td>
                 <td>
                     <form method="POST" action="altproduto.php">
                         <input name="id" type="hidden" value="<?php echo $value['id']; ?>"/>

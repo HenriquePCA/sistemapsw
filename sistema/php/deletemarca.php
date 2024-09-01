@@ -198,24 +198,46 @@
         </nav>
     </header>
 
-<div class="message-box">
+    <div class="message-box">
     <?php
     require_once("conexao.php");
 
     $id = $_POST['id'];
 
-    $sql = "DELETE FROM marca WHERE id = :id";
-    $sqlcombanco = $conexao->prepare($sql);
-    $sqlcombanco->bindParam(':id', $id, PDO::PARAM_INT);
+    // Primeiro, precisamos obter o nome da marca com base no ID
+    $sqlNomeMarca = "SELECT nome FROM marca WHERE id = :id";
+    $stmtNomeMarca = $conexao->prepare($sqlNomeMarca);
+    $stmtNomeMarca->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmtNomeMarca->execute();
+    $nomeMarca = $stmtNomeMarca->fetchColumn();
 
-    if ($sqlcombanco->execute()) {
-        echo "<h3>Marca excluída com sucesso!</h3>";
+    if ($nomeMarca) {
+        // Agora verificamos se há produtos associados a essa marca pelo nome
+        $sqlVerifica = "SELECT COUNT(*) FROM produto WHERE marca = :nomeMarca";
+        $stmtVerifica = $conexao->prepare($sqlVerifica);
+        $stmtVerifica->bindParam(':nomeMarca', $nomeMarca, PDO::PARAM_STR);
+        $stmtVerifica->execute();
+        $quantidadeProdutos = $stmtVerifica->fetchColumn();
+
+        if ($quantidadeProdutos > 0) {
+            echo "<h3>Erro!</h3> Não foi possível excluir a marca, pois existem $quantidadeProdutos produto(s) associado(s).";
+        } else {
+            // Se não houver produtos associados, exclui a marca
+            $sqlDelete = "DELETE FROM marca WHERE id = :id";
+            $stmtDelete = $conexao->prepare($sqlDelete);
+            $stmtDelete->bindParam(':id', $id, PDO::PARAM_INT);
+
+            if ($stmtDelete->execute()) {
+                echo "<h3>Marca excluída com sucesso!</h3>";
+            } else {
+                echo "<h3>Erro!</h3> Não foi possível excluir a marca.";
+            }
+        }
     } else {
-        echo "<h3>Erro!</h3> Não foi possível excluir a marca.";
+        echo "<h3>Erro!</h3> Marca não encontrada.";
     }
     ?>
     <button class="button"><a href="listamarcas.php">Voltar</a></button>
 </div>
-
 </body>
 </html>

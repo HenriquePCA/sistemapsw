@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style1.css">
+    <script>
+        function confirmarExclusao(nome) {
+            return confirm('Quer mesmo excluir a marca ' + nome + '?');
+        }
+    </script>
     <title>Lista de Marcas</title>
     <style>
         .tabela-fornecedores {
@@ -21,8 +26,7 @@
         }
     </style>
 
-<style>
-        
+    <style>
         .dropdown {
             position: relative;
         }
@@ -46,14 +50,12 @@
         
         .dropdown-content a:hover {
             background-color: transparent;
-            
         }
         
         .dropdown:hover .dropdown-content {
             display: block;
         }
-        
-            </style>
+    </style>
 </head>
 <body>
 
@@ -102,6 +104,12 @@ $retorno->execute();
 
 <h3>Lista de Marcas</h3> 
 <br><br>
+
+<?php 
+if ($retorno->rowCount() > 0) { 
+  
+?>
+
 <table class="tabela-fornecedores"> 
     <thead>
         <tr>
@@ -113,16 +121,18 @@ $retorno->execute();
         </tr>
     </thead>
     <tbody>
-        <?php foreach($retorno->fetchAll() as $value) { ?>
+        <?php 
+
+        foreach($retorno->fetchAll(PDO::FETCH_ASSOC) as $value) { ?>
             <tr>
-                <td><?php echo $value['nome']; ?></td>
-                <td><?php echo $value['website']; ?></td>
+                <td><?php echo htmlspecialchars($value['nome']); ?></td>
+                <td><?php echo htmlspecialchars($value['website']); ?></td>
                 <td>
                     <form method="POST" action="alterar_status.php">
                         <input name="id" type="hidden" value="<?php echo $value['id']; ?>"/>
-                        <select name="estatus" onchange="this.form.submit()" class="<?php echo ($value['estatus'] == 'Ativo') ? 'status-ativo' : 'status-inativo'; ?>">
-                            <option value="Ativo" <?php if($value['estatus'] == 'Ativo') echo 'selected'; ?>>Ativo</option>
-                            <option value="Inativo" <?php if($value['estatus'] == 'Inativo') echo 'selected'; ?>>Inativo</option>
+                        <select name="estatus" onchange="this.form.submit()" class="<?php echo ($value['estatus'] == 'ativo') ? 'status-ativo' : 'status-inativo'; ?>">
+                            <option value="ativo" <?php if($value['estatus'] == 'ativo') echo 'selected'; ?>>Ativo</option>
+                            <option value="inativo" <?php if($value['estatus'] == 'inativo') echo 'selected'; ?>>Inativo</option>
                         </select>
                     </form>
                 </td>
@@ -133,15 +143,21 @@ $retorno->execute();
                     </form>
                 </td> 
                 <td>
-                    <form method="POST" action="deletemarca.php" onsubmit="return confirmarExclusao('<?php echo htmlspecialchars($value['nome']); ?>')">
-                        <input name="id" type="hidden" value="<?php echo htmlspecialchars($value['id']); ?>"/>
-                        <button class="button" type="submit">Excluir</button>
-                    </form>
-                </td> 
+                        <form method="POST" action="deletemarca.php" onsubmit="return confirmarExclusao('<?php echo htmlspecialchars($value['nome']); ?>')">
+                            <input name="id" type="hidden" value="<?php echo htmlspecialchars($value['id']); ?>"/>
+                            <button class="button" type="submit">Excluir</button>
+                        </form>
+                    </td> 
             </tr>
         <?php } ?> 
     </tbody>
 </table>
+
+<?php 
+} else {
+    echo "<p>Nenhuma marca encontrada.</p>";
+}
+?>
 
 <button class="button button3" style="display: block; margin: 20px auto;"><a href="index.php">Voltar</a></button>
 

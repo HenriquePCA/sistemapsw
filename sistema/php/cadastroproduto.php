@@ -1,15 +1,12 @@
 <?php
 $conn = new mysqli("localhost", "root", "", "cadastro");
 
-// Verificar a conexão
 if ($conn->connect_error) {
     die("Falha na conexão: " . $conn->connect_error);
 }
 
-
 $sql = "SELECT nome FROM fornecedor";
 $result = $conn->query($sql);
-
 
 $fornecedores = [];
 if ($result->num_rows > 0) {
@@ -18,15 +15,23 @@ if ($result->num_rows > 0) {
     }
 }
 
+$sql = "SELECT nome FROM marca WHERE estatus = 'ativo'";
+$result = $conn->query($sql);
+
+$marcas = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $marcas[] = $row['nome'];
+    }
+}
+
 $mensagem = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $modelo = $_POST['modelo'];
-    // Outros campos...
 
     $mensagem = "O produto $modelo foi incluído com sucesso.";
 }
-
 $conn->close();
 ?>
 
@@ -149,10 +154,9 @@ $conn->close();
     <title>Cadastro de Bicicleta</title>
 </head>
 <body>
-
 <header>
         <nav>
-            <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
+            <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt=""></a>
             <div class="menu">
                 <a href="index.php">Início</a>
                 <div class="dropdown">
@@ -193,15 +197,19 @@ $conn->close();
     <h2>Cadastro de Bicicletas</h2>
     <form action="crudproduto.php" method="POST">
         <div class="form-group">
-
-        
             <label for="modelo">Modelo</label>
             <input type="text" id="modelo" name="modelo" required>
         </div>
         <div class="form-group">
             <label for="marca">Marca</label>
-            <input type="text" id="marca" name="marca" required>
+            <select id="marca" name="marca" required>
+                <option value="" disabled selected>Selecione uma marca</option>
+                <?php foreach ($marcas as $marca): ?>
+                    <option value="<?php echo $marca; ?>"><?php echo $marca; ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
+
 
         <div class="form-group">
             <label for="fornecedor">Fornecedor</label>
@@ -232,15 +240,15 @@ $conn->close();
                 <option value="eletrica">Elétrica</option>
             </select>
         </div>
- 
+
         <div class="form-group">
             <label for="preco">Preço</label>
             <input type="number" id="preco" name="preco" step="0.01" required>
         </div>
 
         <div class="form-group">
-            <label for="imagem">Imagem do Produto</label>
-            <input type="file" id="imagem" name="imagem" accept="image/*" required>
+            <label for="imagem">URL da Imagem do Produto</label>
+            <input type="url" id="imagem" name="imagem" required>
         </div>
 
         <div class="actions">

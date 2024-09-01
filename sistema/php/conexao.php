@@ -12,4 +12,10 @@ try{
     foi realizada com sucesso. Erro gerado" . $e->getMessage();
 }
 
+$mysqli = new mysqli("localhost", "root", "", "cadastro");
+
+if ($mysqli->connect_error) {
+    die("Falha na conexão: " . $mysqli->connect_error);
+}
+
 ?>

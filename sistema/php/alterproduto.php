@@ -158,6 +158,33 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+        
+        .button {
+            background-color: rgb(0, 51, 160);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 20px 0;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 60%;
+            transition: 0.3s;
+        }
+
+        .button a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: transparent;
+            border: 2px solid rgb(0, 51, 160);
+        }
         
             </style>
 </head>

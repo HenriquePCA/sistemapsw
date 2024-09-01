@@ -46,6 +46,32 @@ $total = 0;
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+        .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0; 
+}
+
+.btn-finalizar, .btn-continuar {
+    background-color: rgb(0, 51, 160);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 2px solid rgb(0, 51, 160);
+    transition: 0.3s;
+    margin: 0 10px; 
+}
+
+.btn-finalizar:hover, .btn-continuar:hover {
+    background-color: transparent;
+    color: rgb(0, 51, 160);
+}
+
+
         
             </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -132,9 +158,10 @@ $total = 0;
     </table>
 
     <h2>Total: R$ <?php echo number_format($total, 2, ',', '.'); ?></h2>
-
+    <div class="button-container">
     <a href="finalizar_compra.php" class="btn-finalizar">Finalizar Compra</a>
     <a href="produtos.php" class="btn-continuar">Continuar Comprando</a>
+    </div>
 </main>
 
 </body>

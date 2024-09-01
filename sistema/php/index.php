@@ -37,6 +37,11 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+        .icones img {
+            width: 40px;
+            padding-right: 10px;
+        }
         
             </style>
 
@@ -74,8 +79,8 @@
             </div>
 
             <div class="icones">
-                <a href="#"><i class="fab fa-facebook-f" style="color: #F2F2F2;"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in" style="color: #F2F2F2;"></i></a>
+                <a href="perfil.php"><img src="../img/login.png" alt=""></a>
+                <a href="carrinho.php" class="social"><img src="../img/carrinho.png" alt=""></a>
             </div>
         </nav>
     </header>

@@ -1,64 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finalizar Compra</title>
-</head>
-<body>
-<header>
-        <nav>
-            <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
-            <div class="menu">
-                <a href="index.php">Início</a>
-                <div class="dropdown">
-                <a href="produtos.php">Produtos</a>
-                <div class="dropdown-content">
-                     <a href="cadastroproduto.php">Cadastro</a>
-                     <a href="listaproduto.php">Lista</a>
-                  </div>
-                  </div>
-                <div class="dropdown">
-                  <a href="fornecedores.php">Fornecedores</a>
-                    <div class="dropdown-content">
-                     <a href="fornecedores.php">Cadastro</a>
-                     <a href="listafornecedor.php">Lista</a>
-                  </div>
-                  </div>
-                  <div class="dropdown">
-                <a href="listamarcas.php">Marcas</a>
-                <div class="dropdown-content">
-                     <a href="cadastromarca.php">Cadastro</a>
-                     <a href="listamarcas.php">Lista</a>
-                  </div>
-                  </div>
-                <a href="sobre.php">Sobre</a>
-                <a href="../php/cadastro.php">Cadastre-se</a>
-            </div>
-
-            <div class="icones">
-                <a href="#"><i class="fab fa-facebook-f" style="color: #F2F2F2;"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in" style="color: #F2F2F2;"></i></a>
-            </div>
-        </nav>
-    </header>
-
-
-    
 <?php
 session_start();
 require_once('conexao.php');
+
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: login.php");
+    exit();
+}
 
 if (!isset($_SESSION['carrinho']) || empty($_SESSION['carrinho'])) {
     echo "Seu carrinho está vazio!";
     exit;
 }
 
-unset($_SESSION['carrinho']);
+$carrinho = $_SESSION['carrinho'];
+$id_usuario = $_SESSION['usuario_id'];
+$data = date('Y-m-d');
+$hora = date('H:i:s');
 
-echo "Compra finalizada com sucesso!";
+try {
+    $conexao->beginTransaction();
+
+    foreach ($carrinho as $id_produto => $quantidade) {
+        $sql = "SELECT p.preco, p.id AS id_produto, p.marca, p.fornecedor_id, m.id AS id_marca 
+                FROM produto p 
+                JOIN marca m ON p.marca = m.nome
+                WHERE p.id = :id";
+        $stmt = $conexao->prepare($sql);
+        $stmt->bindParam(':id', $id_produto, PDO::PARAM_INT);
+        $stmt->execute();
+        $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($produto) {
+            $total = $produto['preco'] * $quantidade;
+            $sql = "INSERT INTO compra (id_marca, id_usuario, id_produto, id_fornecedor, total, quantidade, data, hora)
+                    VALUES (:id_marca, :id_usuario, :id_produto, :id_fornecedor, :total, :quantidade, :data, :hora)";
+            $stmt = $conexao->prepare($sql);
+            $stmt->bindParam(':id_marca', $produto['id_marca']);
+            $stmt->bindParam(':id_usuario', $id_usuario);
+            $stmt->bindParam(':id_produto', $produto['id_produto']);
+            $stmt->bindParam(':id_fornecedor', $produto['fornecedor_id']);
+            $stmt->bindParam(':total', $total);
+            $stmt->bindParam(':quantidade', $quantidade);
+            $stmt->bindParam(':data', $data);
+            $stmt->bindParam(':hora', $hora);
+
+            $stmt->execute();
+        }
+    }
+
+    $conexao->commit();
+    unset($_SESSION['carrinho']);
+    header("Location: listacompra.php");
+    exit();
+} catch (PDOException $e) {
+    $conexao->rollBack();
+    echo "Erro ao finalizar a compra: " . $e->getMessage();
+    exit();
+}
 ?>
-
-
-</body>
-</html>

@@ -279,3 +279,10 @@ a:-webkit-any-link {
     color: #F2F2F2;
     text-align: center;
 }
+
+.infos{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}

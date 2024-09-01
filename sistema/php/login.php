@@ -1,51 +1,36 @@
 <?php
-include('conexao.php');
+session_start();
+include("conexao.php");
 
-if(isset($_POST['email']) && isset($_POST['senha'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
 
-    if(empty($_POST['email'])) {
-        echo "Preencha seu e-mail";
-    } else if(empty($_POST['senha'])) {
-        echo "Preencha sua senha";
+    if (empty($email) || empty($senha)) {
+        $erro = "Por favor, preencha todos os campos.";
     } else {
+        $sql = "SELECT * FROM usuario WHERE email = ? AND senha = ?";
+        $stmt = $conexao->prepare($sql);
+        $stmt->execute([$email, $senha]);
+        $usuario = $stmt->fetch();
 
-        $email = $mysqli->real_escape_string($_POST['email']);
-        $senha = $mysqli->real_escape_string($_POST['senha']);
-
-        // Usando prepared statements para prevenir SQL injection
-        $sql_code = "SELECT * FROM usuarios WHERE email = ? AND senha = ?";
-        $stmt = $mysqli->prepare($sql_code);
-        $stmt->bind_param("ss", $email, $senha);
-        $stmt->execute();
-        $sql_query = $stmt->get_result();
-
-        $quantidade = $sql_query->num_rows;
-
-        if($quantidade == 1) {
-            $usuario = $sql_query->fetch_assoc();
-
-            if(session_status() !== PHP_SESSION_ACTIVE) {
-                session_start();
-            }
-
-            $_SESSION['email'] = $usuario['email'];
+        if ($usuario) {
+            $_SESSION['usuario_id'] = $usuario['id'];
             $_SESSION['nome'] = $usuario['nome'];
-
-            header("Location: painel.php");
-            exit(); // Garante que o código pare de executar após o redirecionamento
+            header("Location: perfil.php");
+            exit();
         } else {
-            echo "Falha ao logar! E-mail ou senha incorretos";
+            $erro = "Email ou senha inválidos.";
         }
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         
@@ -78,12 +63,53 @@ if(isset($_POST['email']) && isset($_POST['senha'])) {
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+        .icones img {
+            width: 40px;
+            padding-right: 10px;
+        }
+
+        h2{
+            color: white;
+            text-align: center;
+            margin-top: 130px;
+        }
+
         
-            </style>
+.botao {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+        .button {
+            background-color: rgb(0, 51, 160);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 10%;
+            transition: 0.3s;
+        }
+        .button a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: transparent;
+            border: 2px solid rgb(0, 51, 160);
+        }
+        </style>
     <title>Login</title>
 </head>
 <body>
-
 <header>
         <nav>
             <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
@@ -107,7 +133,7 @@ if(isset($_POST['email']) && isset($_POST['senha'])) {
                 <a href="listamarcas.php">Marcas</a>
                 <div class="dropdown-content">
                      <a href="cadastromarca.php">Cadastro</a>
-                     <a href="listamarca.php">Lista</a>
+                     <a href="listamarcas.php">Lista</a>
                   </div>
                   </div>
                 <a href="sobre.php">Sobre</a>
@@ -115,31 +141,28 @@ if(isset($_POST['email']) && isset($_POST['senha'])) {
             </div>
 
             <div class="icones">
-                <a href="#"><i class="fab fa-facebook-f" style="color: #F2F2F2;"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in" style="color: #F2F2F2;"></i></a>
+                <a href="perfil.php"><img src="../img/login.png" alt=""></a>
+                <a href="carrinho.php" class="social"><img src="../img/carrinho.png" alt=""></a>
             </div>
         </nav>
     </header>
 
-    <h1 id="titulo">Faça seu login</h1>
-
-<div class="principal">
-
-        <div class="formulario">
-            <h2>Insira seus dados:</h2>
-            <form action="painel.php" method="post">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-
-                <label for="senha">Senha:</label>
-                <input type="password" id="senha" name="senha" required>
-
-                <button type="submit">Entrar</button>
-            </form>
+    <h2>Login</h2>
+    <?php if (isset($erro)): ?>
+        <p style="color: red;"><?= $erro ?></p>
+    <?php endif; ?>
+    <div class="principal">
+    <div class="formulario">
+    <form action="login.php" method="POST">
+        <label for="email">Email:</label>
+        <input type="email" name="email" required>
+        <br>
+        <label for="senha">Senha:</label>
+        <input type="password" name="senha" required>
+        <br></div></div>
+        <div class="botao">
+        <button class="button" type="submit">Entrar</button>
         </div>
-
-    </div>
-    
-
+        
+    </form>
 </body>
-</html>

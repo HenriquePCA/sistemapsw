@@ -13,9 +13,38 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Venda de Carros e Motos</title>
+    <title>Venda de Bicicletas</title>
     <link rel="stylesheet" href="../css/styles.css">
     <style>
+          .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            left: 0;
+            background-color: black;
+            min-width: 160px;
+            z-index: 1;
+            flex-direction: column;
+        }
+        
+        .dropdown-content a {
+            color: rgb(255, 255, 255);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: transparent;
+            
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
 
 .carrossel {
     display: flex;
@@ -24,17 +53,12 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     margin-top: 20px;
 }
 
-
-
 .carrossel-content {
     overflow-x: hidden;
     display: flex;
-    gap: 20px; /* Espaçamento entre os itens */
-}
-
-.produtos {
-    display: flex;
-    gap: 20px; /* Espaçamento entre os produtos */
+    flex-wrap: wrap; 
+    gap: 20px;
+    justify-content: center; 
 }
 
 .produto {
@@ -42,14 +66,16 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    flex: 0 0 250px; /* Largura fixa de cada produto */
+    flex: 0 0 23%;
+    max-width: 23%; 
     text-align: center;
     color: #F2F2F2;
 }
 
 .produto img {
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    height: 200px; 
+    object-fit: cover; 
     border-radius: 8px;
     margin-bottom: 10px;
 }
@@ -81,21 +107,6 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     color: rgb(0, 51, 160);
 }
 
-
-     
-.dropdown {
-    position: relative;
-}
-
-.carrossel {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 20px;
-    position: relative; 
-}
-
-/* Setas ajustadas */
 .arrow {
     background-color: transparent;
     border: none;
@@ -109,44 +120,16 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 .seta-esquerda {
-    left: -40px; /* Ajusta para a esquerda fora do contêiner */
+    left: -40px; 
 }
 
 .seta-direita {
-    right: -40px; /* Ajusta para a direita fora do contêiner */
+    right: -40px; 
 }
 
 .arrow:hover {
     color: rgb(0, 51, 160);
 }
-
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    left: 0;
-    background-color: black;
-    min-width: 160px;
-    z-index: 1;
-    flex-direction: column;
-}
-
-.dropdown-content a {
-    color: rgb(255, 255, 255);
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content a:hover {
-    background-color: transparent;
-    
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
     </style>
 </head>
 <body>
@@ -187,30 +170,25 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </nav>
     </header>
 
-
-    <div class="divprincipal">
-        <div class="carrossel">
-            <button class="arrow seta-esquerda">&#9664;</button>
-            <div class="carrossel-content">
-            <div class="produtos">
-        <?php foreach ($produtos as $produto): ?>
-            <div class="produto">
-                <img src="<?php echo $produto['imagem']; ?>" alt="<?php echo $produto['modelo']; ?>">
-                <h2><?php echo htmlspecialchars($produto['modelo']); ?></h2>
-                <p><?php echo htmlspecialchars($produto['marca']); ?></p>
-                <p>R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?></p>
-                <a href="detalheproduto.php?id=<?php echo $produto['id']; ?>">Ver mais</a>
-            </div>
-        <?php endforeach; ?>
-    </div>
-                
-            </div>
-            <button class="arrow seta-direita">&#9654;</button>
+  
+<div class="divprincipal">
+    <div class="carrossel">
+        <button class="arrow seta-esquerda">&#9664;</button>
+        <div class="carrossel-content">
+            <?php foreach ($produtos as $produto): ?>
+                <div class="produto">
+                    <img src="<?php echo htmlspecialchars($produto['imagem']); ?>" alt="<?php echo htmlspecialchars($produto['modelo']); ?>">
+                    <h2><?php echo htmlspecialchars($produto['modelo']); ?></h2>
+                    <p><?php echo htmlspecialchars($produto['marca']); ?></p>
+                    <p>R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?></p>
+                    <a href="detalheproduto.php?id=<?php echo $produto['id']; ?>">Ver mais</a>
+                </div>
+            <?php endforeach; ?>
         </div>
+        <button class="arrow seta-direita">&#9654;</button>
+    </div>
+</div>
 
-
-
-        
-    <script src="../javascript/scripts.js"></script>
+<script src="../javascript/scripts.js"></script>
 </body>
 </html>

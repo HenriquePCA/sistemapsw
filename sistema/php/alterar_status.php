@@ -14,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Verifica se a atualização ocorreu
     if ($stmt->rowCount() > 0) {
-        // Status atualizado com sucesso, redireciona de volta para a lista
         header('Location: listamarcas.php');
         exit();
     } else {

@@ -1,36 +1,27 @@
+<?php
+session_start();
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+include("conexao.php");
+
+$usuario_id = $_SESSION['usuario_id'];
+$sql = "SELECT * FROM usuario WHERE id = ?";
+$stmt = $conexao->prepare($sql);
+$stmt->execute([$usuario_id]);
+$usuario = $stmt->fetch();
+
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Document</title>
     <style>
-        .success-message {
-            color: white;
-            text-align: center;
-            margin-top: 150px;
-        }
-
-        .success-button {
-            display: block;
-            margin: 30px auto;
-            padding: 10px 20px;
-            background-color: rgb(0, 51, 160);
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            text-align: center;
-            width: 300px;
-        }
-
-        .success-button:hover {
-            background-color: transparent;
-            border: 2px solid rgb(0, 51, 160);
-        }
-    </style>
-
-<style>
         
         .dropdown {
             position: relative;
@@ -61,11 +52,63 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+        .icones img {
+            width: 40px;
+            padding-right: 10px;
+        }
+
+        h2{
+            color: white;
+            text-align: center;
+            margin-top: 130px;
+        }
+
+        .infos{
+             margin-left: 80px;
+             margin-top: 50px;
+             display: flex;
+             flex-direction: column;
+             color: white;
+}
+
+
+.botao {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; 
+        }
+        .button {
+            background-color: rgb(0, 51, 160);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 20px 0;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 10%;
+            transition: 0.3s;
+        }
+        .button a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: transparent;
+            border: 2px solid rgb(0, 51, 160);
+        }
         
             </style>
+
+    <title>Perfil</title>
 </head>
 <body>
-
 <header>
         <nav>
             <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
@@ -97,40 +140,20 @@
             </div>
 
             <div class="icones">
-                <a href="#"><i class="fab fa-facebook-f" style="color: #F2F2F2;"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in" style="color: #F2F2F2;"></i></a>
+                <a href="perfil.php"><img src="../img/login.png" alt=""></a>
+                <a href="carrinho.php" class="social"><img src="../img/carrinho.png" alt=""></a>
             </div>
         </nav>
     </header>
-<?php
-require_once("conexao.php");
-
-$nome= $_POST['nome'];
-$email= $_POST['email'];
-$data_nascimento= $_POST['data_nascimento'];
-$telefone= $_POST['telefone'];
-$senha= $_POST['senha'];
-$confirmar_senha= $_POST['confirmar_senha'];
-
-$senhaHash = password_hash($senha, PASSWORD_DEFAULT);
-
-if ($senha == $confirmar_senha) {
-    $sql = "INSERT INTO usuario (nome, email, nascimento, telefone, senha) VALUES ('$nome', '$email', '$data_nascimento', '$telefone', '$senha')";
-    $sqlcombanco = $conexao->prepare($sql);
-
-    if ($sqlcombanco->execute()) {
-        echo "<div class='success-message'>";
-        echo "<h3>Ok, o usuário $nome foi incluído com sucesso!</h3>";
-        echo "<a href='listausuarios.php' class='success-button'>Visualizar lista de usuários</a>";
-        echo "</div>";
-    }
-} else {
-    echo "<div class='error-message'>";
-    echo "<h3>Erro: As senhas não coincidem.</h3>";
-    echo "</div>";
-}
-?>
-
+    
+    <h2>Perfil do Usuário</h2>
+    <div class="infos">
+    <p><strong>Nome:</strong> <?= $usuario['nome'] ?></p>
+    <p><strong>Email:</strong> <?= $usuario['email'] ?></p>
+    <p><strong>Data de Nascimento:</strong> <?= $usuario['nascimento'] ?></p>
+    <p><strong>Telefone:</strong> <?= $usuario['telefone'] ?></p>
+    </div>
+  <div class="botao">
+    <button class="button"><a href="logout.php">Sair</a></button> </div>
 </body>
 </html>
-
