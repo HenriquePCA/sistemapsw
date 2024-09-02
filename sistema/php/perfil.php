@@ -13,6 +13,15 @@ $stmt = $conexao->prepare($sql);
 $stmt->execute([$usuario_id]);
 $usuario = $stmt->fetch();
 
+$sql_compras = "SELECT c.id, c.total, c.quantidade, c.data, c.hora, p.modelo AS produto, m.nome AS marca
+                FROM compra c
+                JOIN produto p ON c.id_produto = p.id
+                JOIN marca m ON c.id_marca = m.id
+                WHERE c.id_usuario = ?";
+$stmt_compras = $conexao->prepare($sql_compras);
+$stmt_compras->execute([$usuario_id]);
+$compras = $stmt_compras->fetchAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +29,7 @@ $usuario = $stmt->fetch();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style1.css">
     <style>
         
         .dropdown {
@@ -77,7 +86,7 @@ $usuario = $stmt->fetch();
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; 
+            height: 10vh; 
         }
         .button {
             background-color: rgb(0, 51, 160);
@@ -153,6 +162,40 @@ $usuario = $stmt->fetch();
     <p><strong>Data de Nascimento:</strong> <?= $usuario['nascimento'] ?></p>
     <p><strong>Telefone:</strong> <?= $usuario['telefone'] ?></p>
     </div>
+
+    <h2>Minhas Compras</h2>
+<?php if ($compras): ?>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Produto</th>
+                <th>Marca</th>
+                <th>Total</th>
+                <th>Quantidade</th>
+                <th>Data</th>
+              
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($compras as $compra): ?>
+                <tr>
+                    <td><?= htmlspecialchars($compra['id']) ?></td>
+                    <td><?= htmlspecialchars($compra['produto']) ?></td>
+                    <td><?= htmlspecialchars($compra['marca']) ?></td>
+                    <td><?= htmlspecialchars($compra['total']) ?></td>
+                    <td><?= htmlspecialchars($compra['quantidade']) ?></td>
+                    <td><?= htmlspecialchars($compra['data']) ?></td>
+                   
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php else: ?>
+    <p>Nenhuma compra registrada.</p>
+<?php endif; ?>
+
+
   <div class="botao">
     <button class="button"><a href="logout.php">Sair</a></button> </div>
 </body>

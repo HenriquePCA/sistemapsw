@@ -156,12 +156,11 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
-
+        
         .icones img {
             width: 40px;
             padding-right: 10px;
         }
-        
         
             </style>
 </head>
@@ -202,43 +201,25 @@
             </div>
         </nav>
     </header>
-    <div class="message-box">
+
+<div class="message-box">
     <?php
     require_once("conexao.php");
 
     $id = $_POST['id'];
 
-    $sqlNomeMarca = "SELECT nome FROM marca WHERE id = :id";
-    $stmtNomeMarca = $conexao->prepare($sqlNomeMarca);
-    $stmtNomeMarca->bindParam(':id', $id, PDO::PARAM_INT);
-    $stmtNomeMarca->execute();
-    $nomeMarca = $stmtNomeMarca->fetchColumn();
+    $sql = "DELETE FROM compra WHERE id = :id";
+    $sqlcombanco = $conexao->prepare($sql);
+    $sqlcombanco->bindParam(':id', $id, PDO::PARAM_INT);
 
-    if ($nomeMarca) {
-        $sqlVerifica = "SELECT COUNT(*) FROM produto WHERE marca = :nomeMarca";
-        $stmtVerifica = $conexao->prepare($sqlVerifica);
-        $stmtVerifica->bindParam(':nomeMarca', $nomeMarca, PDO::PARAM_STR);
-        $stmtVerifica->execute();
-        $quantidadeProdutos = $stmtVerifica->fetchColumn();
-
-        if ($quantidadeProdutos > 0) {
-            echo "<h3>Erro!</h3> Não foi possível excluir a marca, pois existem $quantidadeProdutos produto(s) associado(s).";
-        } else {
-            $sqlDelete = "DELETE FROM marca WHERE id = :id";
-            $stmtDelete = $conexao->prepare($sqlDelete);
-            $stmtDelete->bindParam(':id', $id, PDO::PARAM_INT);
-
-            if ($stmtDelete->execute()) {
-                echo "<h3>Marca excluída com sucesso!</h3>";
-            } else {
-                echo "<h3>Erro!</h3> Não foi possível excluir a marca.";
-            }
-        }
+    if ($sqlcombanco->execute()) {
+        echo "<h3>Compra excluída com sucesso!</h3>";
     } else {
-        echo "<h3>Erro!</h3> Marca não encontrada.";
+        echo "<h3>Erro!</h3> Não foi possível excluir o registro da compra.";
     }
     ?>
-    <button class="button"><a href="listamarcas.php">Voltar</a></button>
+    <button class="button"><a href="listacompra.php">Voltar</a></button>
 </div>
+
 </body>
 </html>

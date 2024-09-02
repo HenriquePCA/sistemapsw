@@ -37,6 +37,11 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+        .icones img {
+            width: 40px;
+            padding-right: 10px;
+        }
         
             </style>
     <title>Cadastro de Fornecedor</title>
@@ -53,7 +58,6 @@
     </script>
 </head>
 <body>
-
 <header>
         <nav>
             <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>

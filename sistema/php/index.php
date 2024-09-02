@@ -90,7 +90,7 @@
             <h3>LUXO BIKE</h3>
             <h1>GARANTA SUA BICICLETA <br> <span> AGORA</span> </h1>
             <p>COM A MELHOR QUALIDADE </p>
-            <a href="#" class="botao">Ver Bicicletas</a>
+            <a href="produtos.php" class="botao">Ver Bicicletas</a>
         </div>
 
         <div class="carousel-container">

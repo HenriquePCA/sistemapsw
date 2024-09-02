@@ -280,9 +280,3 @@ a:-webkit-any-link {
     text-align: center;
 }
 
-.infos{
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    color: white;
-}

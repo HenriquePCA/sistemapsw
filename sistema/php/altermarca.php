@@ -100,9 +100,9 @@
         }
 
         .button {
-            background-color: rgb(0, 51, 160);
-            color: white;
-            border: none;
+           color: white;
+                 background-color: rgb(0, 51, 160);
+        border: none;
             padding: 12px 20px;
             text-align: center;
             text-decoration: none;

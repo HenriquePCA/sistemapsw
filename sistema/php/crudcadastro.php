@@ -61,6 +61,12 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+        .icones img {
+            width: 40px;
+            padding-right: 10px;
+        }
+        
         
             </style>
 </head>

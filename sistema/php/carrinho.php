@@ -2,13 +2,16 @@
 session_start();
 require_once('conexao.php');
 
+date_default_timezone_set('America/Sao_Paulo');
+
+
 if (!isset($_SESSION['carrinho']) || empty($_SESSION['carrinho'])) {
     echo "Seu carrinho está vazio!";
     exit;
 }
 
 $carrinho = $_SESSION['carrinho'];
-$total = 0;
+$total = 0; 
 ?>
 
 <!DOCTYPE html>
@@ -16,11 +19,7 @@ $total = 0;
 <head>
     <meta charset="UTF-8">
     <style>
-        
-        .dropdown {
-            position: relative;
-        }
-        
+        .dropdown { position: relative; }
         .dropdown-content {
             display: none;
             position: absolute;
@@ -30,56 +29,56 @@ $total = 0;
             z-index: 1;
             flex-direction: column;
         }
-        
         .dropdown-content a {
             color: rgb(255, 255, 255);
             padding: 12px 16px;
             text-decoration: none;
             display: block;
         }
-        
-        .dropdown-content a:hover {
-            background-color: transparent;
-            
-        }
-        
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
+        .dropdown-content a:hover { background-color: transparent; }
+        .dropdown:hover .dropdown-content { display: block; }
         .button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0; 
-}
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0; 
+        }
+        .btn-finalizar, .btn-continuar {
+            background-color: rgb(0, 51, 160);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid rgb(0, 51, 160);
+            transition: 0.3s;
+            margin: 0 10px; 
+        }
+        .btn-finalizar:hover, .btn-continuar:hover {
+            background-color: transparent;
+            color: rgb(0, 51, 160);
+        }
+        .icones img {
+            width: 40px;
+            padding-right: 10px;
+        }
 
-.btn-finalizar, .btn-continuar {
-    background-color: rgb(0, 51, 160);
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    border: 2px solid rgb(0, 51, 160);
-    transition: 0.3s;
-    margin: 0 10px; 
-}
+        #botao{
+            background-color: transparent;
+            color:rgb(0, 51, 160);
+            font-size: 20px;
+            margin-right: 10px;
+            margin-left: 10px;
+            border: none;
 
-.btn-finalizar:hover, .btn-continuar:hover {
-    background-color: transparent;
-    color: rgb(0, 51, 160);
-}
+        }
 
-
-        
-            </style>
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrinho</title>
     <link rel="stylesheet" href="../css/style1.css">
 </head>
 <body>
-
 <header>
         <nav>
             <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
@@ -111,14 +110,14 @@ $total = 0;
             </div>
 
             <div class="icones">
-                <a href="#"><i class="fab fa-facebook-f" style="color: #F2F2F2;"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in" style="color: #F2F2F2;"></i></a>
+                <a href="perfil.php"><img src="../img/login.png" alt=""></a>
+                <a href="carrinho.php" class="social"><img src="../img/carrinho.png" alt=""></a>
             </div>
         </nav>
     </header>
 
 <main>
-    <h1>Seu Carrinho</h1>
+    <h1>Carrinho</h1>
     <table>
         <thead>
             <tr>
@@ -132,7 +131,6 @@ $total = 0;
         <tbody>
             <?php foreach ($carrinho as $id => $quantidade): ?>
                 <?php
-    
                 $sql = "SELECT * FROM produto WHERE id = :id";
                 $stmt = $conexao->prepare($sql);
                 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -141,12 +139,22 @@ $total = 0;
 
                 if ($produto):
                     $total_item = $produto['preco'] * $quantidade;
-                    $total += $total_item;
+                    $total += $total_item; 
                 ?>
                     <tr>
                         <td><?php echo htmlspecialchars($produto['modelo']); ?></td>
                         <td>R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?></td>
-                        <td><?php echo $quantidade; ?></td>
+                        <td>
+                            <form action="atualizar_carrinho.php" method="post" style="display: inline;">
+                                <input type="hidden" name="id" value="<?php echo $id; ?>">
+                                <button id="botao" type="submit" name="acao" value="decrementar">-</button>
+                            </form>
+                            <?php echo $quantidade; ?>
+                            <form action="atualizar_carrinho.php" method="post" style="display: inline;">
+                                <input type="hidden" name="id" value="<?php echo $id; ?>">
+                                <button id="botao" type="submit" name="acao" value="incrementar">+</button>
+                            </form>
+                        </td>
                         <td>R$ <?php echo number_format($total_item, 2, ',', '.'); ?></td>
                         <td>
                             <a href="remover_carrinho.php?id=<?php echo $id; ?>">Remover</a>
@@ -157,10 +165,10 @@ $total = 0;
         </tbody>
     </table>
 
-    <h2>Total: R$ <?php echo number_format($total, 2, ',', '.'); ?></h2>
+    <h2>Total: R$ <?php echo number_format($total, 2, ',', '.'); ?></h2> 
     <div class="button-container">
-    <a href="finalizar_compra.php" class="btn-finalizar">Finalizar Compra</a>
-    <a href="produtos.php" class="btn-continuar">Continuar Comprando</a>
+        <a href="finalizar_compra.php" class="btn-finalizar">Finalizar Compra</a>
+        <a href="produtos.php" class="btn-continuar">Continuar Comprando</a>
     </div>
 </main>
 

@@ -1,36 +1,38 @@
+<?php
+session_start();
+require_once("conexao.php");
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+
+    if (empty($email) || empty($senha)) {
+        $erro = "Por favor, preencha todos os campos.";
+    } else {
+        // Consulta apenas pelo email
+        $sql = "SELECT * FROM fornecedor WHERE email = ?";
+        $stmt = $conexao->prepare($sql);
+        $stmt->execute([$email]);
+        $fornecedor = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($fornecedor && password_verify($senha, $fornecedor['senha'])) {
+            $_SESSION['fornecedor_id'] = $fornecedor['id'];
+            $_SESSION['fornecedor_nome'] = $fornecedor['nome'];
+            header("Location: dashboard.php");
+            exit();
+        } else {
+            $erro = "Email ou senha inválidos.";
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Document</title>
     <style>
-        .success-message {
-            color: white;
-            text-align: center;
-            margin-top: 150px;
-        }
-
-        .success-button {
-            display: block;
-            margin: 30px auto;
-            padding: 10px 20px;
-            background-color: rgb(0, 51, 160);
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            text-align: center;
-            width: 300px;
-        }
-
-        .success-button:hover {
-            background-color: transparent;
-            border: 2px solid rgb(0, 51, 160);
-        }
-    </style>
-
-<style>
         
         .dropdown {
             position: relative;
@@ -65,10 +67,20 @@
         .icones img {
             width: 40px;
             padding-right: 10px;
+
+        }
+
+        h2{
+            margin-top:140px;
+            margin-bottom: 30px;
+            color: white;
+            text-align: center;
         }
         
-        
             </style>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
 </head>
 <body>
 <header>
@@ -107,37 +119,24 @@
             </div>
         </nav>
     </header>
-<?php
-require_once("conexao.php");
-
-$nome= $_POST['nome'];
-$cnpj= $_POST['cnpj'];
-$endereco= $_POST['endereco'];
-$cidade= $_POST['cidade'];
-$estado= $_POST['estado'];
-$cep= $_POST['cep'];
-$telefone= $_POST['telefone'];
-$email= $_POST['email'];
-$representante= $_POST['representante'];
-$senha= $_POST['senha'];
-$confirmar_senha= $_POST['confirmar_senha'];
-
-if ($senha == $confirmar_senha) {
-    $sql = "INSERT INTO fornecedor (nome, cnpj, endereco, cidade, estado, cep, telefone, email, representante, senha) VALUES ('$nome', '$cnpj', '$endereco', '$cidade', '$estado', '$cep', '$telefone', '$email', '$representante', '$senha')";
-    $sqlcombanco = $conexao->prepare($sql);
-
-    if ($sqlcombanco->execute()) {
-        echo "<div class='success-message'>";
-        echo "<h3>Ok, o fornecedor $nome foi incluído com sucesso!</h3>";
-        echo "<a href='listafornecedor.php' class='success-button'>Visualizar lista de fornecedores</a>";
-        echo "</div>";
-    }
-} else {
-    echo "<div class='error-message'>";
-    echo "<h3>Erro: As senhas não coincidem.</h3>";
-    echo "</div>";
-}
-?>
-
+    <h2>Login de Fornecedor</h2>
+    <?php if (isset($erro)): ?>
+        <p id="p" style="color: red;"><?= $erro ?></p>
+    <?php endif; ?>
+    <div class="principal">
+        <div class="formulario">
+            <form action="loginfornecedor.php" method="POST">
+                <label for="email">Email:</label>
+                <input type="email" name="email" required>
+                <br>
+                <label for="senha">Senha:</label>
+                <input type="password" name="senha" required>
+                <br>
+                <div class="botao">
+                    <button class="button" type="submit">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
