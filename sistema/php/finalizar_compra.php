@@ -50,7 +50,7 @@ try {
 
     $conexao->commit();
     unset($_SESSION['carrinho']);
-    header("Location: listacompra.php");
+    header("Location: perfil.php");
     exit();
 } catch (PDOException $e) {
     $conexao->rollBack();

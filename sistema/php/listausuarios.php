@@ -14,7 +14,10 @@
         .dropdown {
             position: relative;
         }
-        
+        .icones img {
+            width: 40px;
+            padding-right: 10px;
+        }
         .dropdown-content {
             display: none;
             position: absolute;
@@ -81,14 +84,18 @@ $retorno->execute();
                   </div>
                 <a href="sobre.php">Sobre</a>
                 <a href="../php/cadastro.php">Cadastre-se</a>
+                
             </div>
 
             <div class="icones">
-                <a href="#"><i class="fab fa-facebook-f" style="color: #F2F2F2;"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in" style="color: #F2F2F2;"></i></a>
+                <a href="perfiladm.php"><img src="../img/adm.png" alt=""></a>
+                <a href="perfilfornecedor.php"><img src="../img/fornecedor.png" alt=""></a>
+                <a href="perfil.php"><img src="../img/login.png" alt=""></a>
+                <a href="carrinho.php" class="social"><img src="../img/carrinho.png" alt=""></a>
             </div>
         </nav>
     </header>
+    
 
 <h3>Lista de Usuários</h3>
 <table> 
@@ -128,7 +135,11 @@ $retorno->execute();
     </tbody>
 </table>
 
-<button class="button button3" style="display: block; margin: 20px auto;"><a href="index.php">Voltar</a></button>
-
+<div style="display: flex; justify-content: center; gap: 20px; margin: 20px auto;">
+  <button class="button button3">
+    <a href="perfiladm.php">Voltar</a>
+  </button>
+  
+</div>
 </body>
 </html>

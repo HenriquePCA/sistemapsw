@@ -1,35 +1,37 @@
 <?php
 session_start();
-if (!isset($_SESSION['usuario_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
 include("conexao.php");
 
-$usuario_id = $_SESSION['usuario_id'];
-$sql = "SELECT * FROM usuario WHERE id = ?";
-$stmt = $conexao->prepare($sql);
-$stmt->execute([$usuario_id]);
-$usuario = $stmt->fetch();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
 
-$sql_compras = "SELECT c.id, c.total, c.quantidade, c.data, c.hora, p.modelo AS produto, m.nome AS marca
-                FROM compra c
-                JOIN produto p ON c.id_produto = p.id
-                JOIN marca m ON c.id_marca = m.id
-                WHERE c.id_usuario = ?";
-$stmt_compras = $conexao->prepare($sql_compras);
-$stmt_compras->execute([$usuario_id]);
-$compras = $stmt_compras->fetchAll();
+    if (empty($email) || empty($senha)) {
+        $erro = "Por favor, preencha todos os campos.";
+    } else {
+        $sql = "SELECT * FROM adm WHERE email = ? AND senha = ?";
+        $stmt = $conexao->prepare($sql);
+        $stmt->execute([$email, $senha]);
+        $adm = $stmt->fetch();
 
+        if ($adm) {
+            $_SESSION['adm_id'] = $adm['id'];
+            $_SESSION['nome'] = $adm['nome'];
+            header("Location: perfiladm.php");
+            exit();
+        } else {
+            $erro = "Email ou senha inválidos.";
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style1.css">
     <style>
         
         .dropdown {
@@ -73,20 +75,12 @@ $compras = $stmt_compras->fetchAll();
             margin-top: 130px;
         }
 
-        .infos{
-             margin-left: 80px;
-             margin-top: 50px;
-             display: flex;
-             flex-direction: column;
-             color: white;
-}
-
-
+        
 .botao {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 10vh; 
+            
         }
         .button {
             background-color: rgb(0, 51, 160);
@@ -97,7 +91,7 @@ $compras = $stmt_compras->fetchAll();
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
-            margin: 20px 0;
+            margin: 10px 0;
             cursor: pointer;
             border-radius: 4px;
             width: 10%;
@@ -112,10 +106,8 @@ $compras = $stmt_compras->fetchAll();
             background-color: transparent;
             border: 2px solid rgb(0, 51, 160);
         }
-        
-            </style>
-
-    <title>Perfil</title>
+        </style>
+    <title>Login</title>
 </head>
 <body>
 <header>
@@ -137,51 +129,25 @@ $compras = $stmt_compras->fetchAll();
             </div>
         </nav>
     </header>
-    
-    
-    <h2>Perfil do Usuário</h2>
-    <div class="infos">
-    <p><strong>Nome:</strong> <?= $usuario['nome'] ?></p>
-    <p><strong>Email:</strong> <?= $usuario['email'] ?></p>
-    <p><strong>Data de Nascimento:</strong> <?= $usuario['nascimento'] ?></p>
-    <p><strong>Telefone:</strong> <?= $usuario['telefone'] ?></p>
-    </div>
-
-    <h2>Minhas Compras</h2>
-<?php if ($compras): ?>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Produto</th>
-                <th>Marca</th>
-                <th>Total</th>
-                <th>Quantidade</th>
-                <th>Data</th>
-              
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($compras as $compra): ?>
-                <tr>
-                    <td><?= htmlspecialchars($compra['id']) ?></td>
-                    <td><?= htmlspecialchars($compra['produto']) ?></td>
-                    <td><?= htmlspecialchars($compra['marca']) ?></td>
-                    <td><?= htmlspecialchars($compra['total']) ?></td>
-                    <td><?= htmlspecialchars($compra['quantidade']) ?></td>
-                    <td><?= htmlspecialchars($compra['data']) ?></td>
-                   
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-<?php else: ?>
-    <p>Nenhuma compra registrada.</p>
-<?php endif; ?>
 
 
-  <div class="botao">
-    <button class="button"><a href="logout.php">Sair</a></button> </div>
-    
+    <h2>Login de Admninistrador</h2>
+    <a href="cadastroadm.php" id="login" ><p>Ainda não é cadastrado? <span>Faça seu cadastro!</span></p></a>
+    <?php if (isset($erro)): ?>
+        <p style="text-align: center; color: red;"><?= $erro ?></p>
+    <?php endif; ?>
+    <div class="principal">
+    <div class="formulario">
+    <form action="loginadm.php" method="POST">
+        <label for="email">Email:</label>
+        <input type="email" name="email" required>
+        <br>
+        <label for="senha">Senha:</label>
+        <input type="password" name="senha" required>
+        <br></div></div>
+        <div class="botao">
+        <button class="button" type="submit">Entrar</button>
+        </div>
+        
+    </form>
 </body>
-</html>

@@ -78,14 +78,18 @@
                   </div>
                 <a href="sobre.php">Sobre</a>
                 <a href="../php/cadastro.php">Cadastre-se</a>
+                
             </div>
 
             <div class="icones">
+                <a href="perfiladm.php"><img src="../img/adm.png" alt=""></a>
+                <a href="perfilfornecedor.php"><img src="../img/fornecedor.png" alt=""></a>
                 <a href="perfil.php"><img src="../img/login.png" alt=""></a>
                 <a href="carrinho.php" class="social"><img src="../img/carrinho.png" alt=""></a>
             </div>
         </nav>
     </header>
+    
 <?php 
 require_once('conexao.php');
 
@@ -162,6 +166,6 @@ if ($retorno->rowCount() > 0) {
 }
 ?>
 
-<button class="button button3" style="display: block; margin: 20px auto;"><a href="index.php">Voltar</a></button>
+<button class="button button3" style="display: block; margin: 20px auto;"><a href="perfiladm.php">Voltar</a></button>
 </body>
 </html>

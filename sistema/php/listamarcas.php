@@ -55,6 +55,10 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+        .icones img {
+            width: 40px;
+            padding-right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -64,43 +68,46 @@ require_once('conexao.php');
 $retorno = $conexao->prepare('SELECT * FROM marca');
 $retorno->execute();
 ?>     
-
 <header>
-    <nav>
-        <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt=""></a>
-        <div class="menu">
-            <a href="index.php">Início</a>
-            <div class="dropdown">
+        <nav>
+            <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
+            <div class="menu">
+                <a href="index.php">Início</a>
+                <div class="dropdown">
                 <a href="produtos.php">Produtos</a>
                 <div class="dropdown-content">
-                    <a href="cadastroproduto.php">Cadastro</a>
-                    <a href="listaproduto.php">Lista</a>
-                </div>
-            </div>
-            <div class="dropdown">
-                <a href="fornecedores.php">Fornecedores</a>
-                <div class="dropdown-content">
-                    <a href="fornecedores.php">Cadastro</a>
-                    <a href="listafornecedor.php">Lista</a>
-                </div>
-            </div>
-            <div class="dropdown">
+                     <a href="cadastroproduto.php">Cadastro</a>
+                     <a href="listaproduto.php">Lista</a>
+                  </div>
+                  </div>
+                <div class="dropdown">
+                  <a href="fornecedores.php">Fornecedores</a>
+                    <div class="dropdown-content">
+                     <a href="fornecedores.php">Cadastro</a>
+                     <a href="listafornecedor.php">Lista</a>
+                  </div>
+                  </div>
+                  <div class="dropdown">
                 <a href="listamarcas.php">Marcas</a>
                 <div class="dropdown-content">
-                    <a href="cadastromarca.php">Cadastro</a>
-                    <a href="listamarcas.php">Lista</a>
-                </div>
+                     <a href="cadastromarca.php">Cadastro</a>
+                     <a href="listamarcas.php">Lista</a>
+                  </div>
+                  </div>
+                <a href="sobre.php">Sobre</a>
+                <a href="../php/cadastro.php">Cadastre-se</a>
+                
             </div>
-            <a href="sobre.php">Sobre</a>
-            <a href="../php/cadastro.php">Cadastre-se</a>
-        </div>
 
-        <div class="icones">
-            <a href="#"><i class="fab fa-facebook-f" style="color: #F2F2F2;"></i></a>
-            <a href="#" class="social"><i class="fab fa-linkedin-in" style="color: #F2F2F2;"></i></a>
-        </div>
-    </nav>
-</header>
+            <div class="icones">
+                <a href="perfiladm.php"><img src="../img/adm.png" alt=""></a>
+                <a href="perfilfornecedor.php"><img src="../img/fornecedor.png" alt=""></a>
+                <a href="perfil.php"><img src="../img/login.png" alt=""></a>
+                <a href="carrinho.php" class="social"><img src="../img/carrinho.png" alt=""></a>
+            </div>
+        </nav>
+    </header>
+    
 
 <h3>Lista de Marcas</h3> 
 <br><br>
@@ -159,7 +166,14 @@ if ($retorno->rowCount() > 0) {
 }
 ?>
 
-<button class="button button3" style="display: block; margin: 20px auto;"><a href="index.php">Voltar</a></button>
+<div style="display: flex; justify-content: center; gap: 20px; margin: 20px auto;">
+  <button class="button button3">
+    <a href="perfiladm.php">Voltar</a>
+  </button>
+  <button class="button button3">
+    <a href="cadastromarca.php">Cadastro</a>
+  </button>
+</div>
 
 </body>
 </html>

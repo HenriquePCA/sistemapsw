@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($email) || empty($senha)) {
         $erro = "Por favor, preencha todos os campos.";
     } else {
-        // Consulta apenas pelo email
+        
         $sql = "SELECT * FROM fornecedor WHERE email = ?";
         $stmt = $conexao->prepare($sql);
         $stmt->execute([$email]);
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($fornecedor && password_verify($senha, $fornecedor['senha'])) {
             $_SESSION['fornecedor_id'] = $fornecedor['id'];
             $_SESSION['fornecedor_nome'] = $fornecedor['nome'];
-            header("Location: dashboard.php");
+            header("Location: perfilfornecedor.php");
             exit();
         } else {
             $erro = "Email ou senha inválidos.";
@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         
         .dropdown {
@@ -67,61 +68,75 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .icones img {
             width: 40px;
             padding-right: 10px;
-
         }
 
         h2{
-            margin-top:140px;
-            margin-bottom: 30px;
             color: white;
             text-align: center;
+            margin-top: 130px;
         }
-        
-            </style>
 
+        
+.botao {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+        .button {
+            background-color: rgb(0, 51, 160);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 25%;
+            transition: 0.3s;
+        }
+        .button a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: transparent;
+            border: 2px solid rgb(0, 51, 160);
+        }
+        </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 </head>
 <body>
+
 <header>
         <nav>
             <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
             <div class="menu">
-                <a href="index.php">Início</a>
-                <div class="dropdown">
+                <a href="index.php">Início</a> 
                 <a href="produtos.php">Produtos</a>
-                <div class="dropdown-content">
-                     <a href="cadastroproduto.php">Cadastro</a>
-                     <a href="listaproduto.php">Lista</a>
-                  </div>
-                  </div>
-                <div class="dropdown">
-                  <a href="fornecedores.php">Fornecedores</a>
-                    <div class="dropdown-content">
-                     <a href="fornecedores.php">Cadastro</a>
-                     <a href="listafornecedor.php">Lista</a>
-                  </div>
-                  </div>
-                  <div class="dropdown">
-                <a href="listamarcas.php">Marcas</a>
-                <div class="dropdown-content">
-                     <a href="cadastromarca.php">Cadastro</a>
-                     <a href="listamarcas.php">Lista</a>
-                  </div>
-                  </div>
+                <a href="fale.php">Fale conosco</a> 
                 <a href="sobre.php">Sobre</a>
                 <a href="../php/cadastro.php">Cadastre-se</a>
             </div>
 
             <div class="icones">
+                <a href="perfiladm.php"><img src="../img/adm.png" alt=""></a>
+                <a href="perfilfornecedor.php"><img src="../img/fornecedor.png" alt=""></a>
                 <a href="perfil.php"><img src="../img/login.png" alt=""></a>
                 <a href="carrinho.php" class="social"><img src="../img/carrinho.png" alt=""></a>
             </div>
         </nav>
     </header>
-    <h2>Login de Fornecedor</h2>
+
+
+    <h2>Login de Fornecedor</h2> <a href="cadastrofornecedor.php" id="login" ><p>Ainda não é cadastrado? <span>Faça seu cadastro!</span></p></a>
     <?php if (isset($erro)): ?>
-        <p id="p" style="color: red;"><?= $erro ?></p>
+        <p id="p" style="text-align: center; color: red;"><?= $erro ?></p>
     <?php endif; ?>
     <div class="principal">
         <div class="formulario">

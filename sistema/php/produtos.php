@@ -130,6 +130,11 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 .arrow:hover {
     color: rgb(0, 51, 160);
 }
+.icones img {
+            width: 40px;
+            padding-right: 10px;
+        }
+        
     </style>
 </head>
 <body>
@@ -137,39 +142,21 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <nav>
             <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
             <div class="menu">
-                <a href="index.php">Início</a>
-                <div class="dropdown">
+                <a href="index.php">Início</a> 
                 <a href="produtos.php">Produtos</a>
-                <div class="dropdown-content">
-                     <a href="cadastroproduto.php">Cadastro</a>
-                     <a href="listaproduto.php">Lista</a>
-                  </div>
-                  </div>
-                <div class="dropdown">
-                  <a href="fornecedores.php">Fornecedores</a>
-                    <div class="dropdown-content">
-                     <a href="fornecedores.php">Cadastro</a>
-                     <a href="listafornecedor.php">Lista</a>
-                  </div>
-                  </div>
-                  <div class="dropdown">
-                <a href="listamarcas.php">Marcas</a>
-                <div class="dropdown-content">
-                     <a href="cadastromarca.php">Cadastro</a>
-                     <a href="listamarcas.php">Lista</a>
-                  </div>
-                  </div>
+                <a href="fale.php">Fale conosco</a> 
                 <a href="sobre.php">Sobre</a>
                 <a href="../php/cadastro.php">Cadastre-se</a>
             </div>
 
             <div class="icones">
-                <a href="#"><i class="fab fa-facebook-f" style="color: #F2F2F2;"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in" style="color: #F2F2F2;"></i></a>
+                <a href="perfiladm.php"><img src="../img/adm.png" alt=""></a>
+                <a href="perfilfornecedor.php"><img src="../img/fornecedor.png" alt=""></a>
+                <a href="perfil.php"><img src="../img/login.png" alt=""></a>
+                <a href="carrinho.php" class="social"><img src="../img/carrinho.png" alt=""></a>
             </div>
         </nav>
     </header>
-
   
 <div class="divprincipal">
     <div class="carrossel">

@@ -1,17 +1,22 @@
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
-        
         .dropdown {
             position: relative;
         }
-        
+        .icones img {
+            width: 40px;
+            padding-right: 10px;
+        }
+
         .dropdown-content {
             display: none;
             position: absolute;
@@ -21,70 +26,56 @@
             z-index: 1;
             flex-direction: column;
         }
-        
+
         .dropdown-content a {
             color: rgb(255, 255, 255);
             padding: 12px 16px;
             text-decoration: none;
             display: block;
         }
-        
+
         .dropdown-content a:hover {
             background-color: transparent;
-            
         }
-        
+
         .dropdown:hover .dropdown-content {
             display: block;
         }
-
-        .icones img {
-            width: 40px;
-            padding-right: 10px;
-        }
-        
-            </style>
+    </style>
     <title>Cadastro de Fornecedor</title>
-    <script>
-        function validarSenha() {
-            const senha = document.getElementById("senha").value;
-            const confirmarSenha = document.getElementById("confirmar_senha").value;
-            if (senha !== confirmarSenha) {
-                alert("As senhas não correspondem.");
-                return false;
-            }
-            return true;
-        }
-    </script>
 </head>
 <body>
 <header>
-        <nav>
-            <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
-            <div class="menu">
-                <a href="index.php">Início</a> 
-                <a href="produtos.php">Produtos</a>
-                <a href="fale.php">Fale conosco</a> 
-                <a href="sobre.php">Sobre</a>
-                <a href="../php/cadastro.php">Cadastre-se</a>
-            </div>
+    <nav>
+        <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
+        <div class="menu">
+            <a href="index.php">Início</a> 
+            <a href="produtos.php">Produtos</a>
+            <a href="fale.php">Fale conosco</a> 
+            <a href="sobre.php">Sobre</a>
+            <a href="../php/cadastro.php">Cadastre-se</a>
+        </div>
 
-            <div class="icones">
+        <div class="icones">
                 <a href="perfiladm.php"><img src="../img/adm.png" alt=""></a>
                 <a href="perfilfornecedor.php"><img src="../img/fornecedor.png" alt=""></a>
                 <a href="perfil.php"><img src="../img/login.png" alt=""></a>
                 <a href="carrinho.php" class="social"><img src="../img/carrinho.png" alt=""></a>
             </div>
-        </nav>
-    </header>
+    </nav>
+</header>
 
-<h1 id="titulo">Cadastro de Fornecedor</h1>
+<h1 id="titulo">Cadastre-se como Fornecedor</h1>
+<a href="login.php" id="login"><p>Já possui cadastro no site? <span>Faça seu login!</span></p></a>
 
 <div class="principal">
     <div class="formulario">
-        <h2>Dados cadastrais</h2>
-        <form action="crudfornecedor.php" method="post" onsubmit="return validarSenha();">
-            <label for="nome">Nome da Empresa:</label>
+        <h2>Dados do Fornecedor</h2>
+        <?php if (!empty($mensagem)): ?>
+            <p style="color: white;"><?= $mensagem ?></p>
+        <?php endif; ?>
+        <form action="crudfornecedor.php" method="post">
+            <label for="nome">Nome Completo:</label>
             <input type="text" id="nome" name="nome" required>
 
             <label for="cnpj">CNPJ:</label>
@@ -103,9 +94,9 @@
             <input type="text" id="cep" name="cep" required>
 
             <label for="telefone">Telefone:</label>
-            <input type="text" id="telefone" name="telefone" required>
+            <input type="tel" id="telefone" name="telefone">
 
-            <label for="email">E-mail:</label>
+            <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
 
             <label for="representante">Nome do Representante:</label>
@@ -121,6 +112,5 @@
         </form>
     </div>
 </div>
-
 </body>
 </html>

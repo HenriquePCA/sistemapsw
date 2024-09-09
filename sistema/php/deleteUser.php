@@ -166,7 +166,6 @@
             </style>
 </head>
 <body>
-
 <header>
         <nav>
             <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
@@ -195,9 +194,12 @@
                   </div>
                 <a href="sobre.php">Sobre</a>
                 <a href="../php/cadastro.php">Cadastre-se</a>
+                
             </div>
 
             <div class="icones">
+                <a href="perfiladm.php"><img src="../img/adm.png" alt=""></a>
+                <a href="perfilfornecedor.php"><img src="../img/fornecedor.png" alt=""></a>
                 <a href="perfil.php"><img src="../img/login.png" alt=""></a>
                 <a href="carrinho.php" class="social"><img src="../img/carrinho.png" alt=""></a>
             </div>

@@ -20,10 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .dropdown {
             position: relative;
         }
-        .icones img {
-            width: 40px;
-            padding-right: 10px;
-        }
         
         .dropdown-content {
             display: none;
@@ -50,11 +46,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+        .icones img {
+            width: 40px;
+            padding-right: 10px;
+        }
+
+        
         
             </style>
-    <title>Cadastro</title>
+    <title>Cadastro de Admninistrador</title>
 </head>
 <body>
+
 <header>
         <nav>
             <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
@@ -76,18 +80,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </header>
 
     <h1 id="titulo">Cadastre-se</h1>
-    <a href="login.php" id="login" ><p>Já possui cadastro no site? <span>Faça seu login!</span></p></a>
 
 <div class="principal">
 
         <div class="formulario">
             <h2>Dados cadastrais</h2>
-            <form action="crudcadastro.php" method="post">
+            <form action="crudadm.php" method="post">
                 <label for="nome">Nome Completo:</label>
                 <input type="text" id="nome" name="nome" required>
 
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
+                
+                <label for="cpf">CPF:</label>
+                <input type="number" id="cpf" name="cpf" required>
+
+                <label for="acesso">Acesso:</label>
+                <input type="number" id="acesso" name="acesso" required>
 
                 <label for="senha">Senha:</label>
                 <input type="password" id="senha" name="senha" required>
@@ -100,6 +109,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <label for="telefone">Telefone:</label>
                 <input type="tel" id="telefone" name="telefone">
+
+                <label for="foto">Foto:</label>
+                <input type="text" id="foto" name="foto">
 
                 <button type="submit">Cadastrar</button>
             </form>

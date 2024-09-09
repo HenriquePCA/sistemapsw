@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Document</title>
+    <title>Resultado</title>
     <style>
         .success-message {
             color: white;
@@ -75,61 +75,63 @@
         <nav>
             <a href="../php/index.php"><img src="../img/logo.png" id="logo" alt="" ></a>
             <div class="menu">
-                <a href="index.php">Início</a>
-                <div class="dropdown">
+                <a href="index.php">Início</a> 
                 <a href="produtos.php">Produtos</a>
-                <div class="dropdown-content">
-                     <a href="cadastroproduto.php">Cadastro</a>
-                     <a href="listaproduto.php">Lista</a>
-                  </div>
-                  </div>
-                <div class="dropdown">
-                  <a href="fornecedores.php">Fornecedores</a>
-                    <div class="dropdown-content">
-                     <a href="fornecedores.php">Cadastro</a>
-                     <a href="listafornecedor.php">Lista</a>
-                  </div>
-                  </div>
-                  <div class="dropdown">
-                <a href="listamarcas.php">Marcas</a>
-                <div class="dropdown-content">
-                     <a href="cadastromarca.php">Cadastro</a>
-                     <a href="listamarcas.php">Lista</a>
-                  </div>
-                  </div>
+                <a href="fale.php">Fale conosco</a> 
                 <a href="sobre.php">Sobre</a>
                 <a href="../php/cadastro.php">Cadastre-se</a>
             </div>
 
             <div class="icones">
+                <a href="perfiladm.php"><img src="../img/adm.png" alt=""></a>
+                <a href="perfilfornecedor.php"><img src="../img/fornecedor.png" alt=""></a>
                 <a href="perfil.php"><img src="../img/login.png" alt=""></a>
                 <a href="carrinho.php" class="social"><img src="../img/carrinho.png" alt=""></a>
             </div>
         </nav>
     </header>
-<?php
+
+    <?php
 require_once("conexao.php");
 
-$nome= $_POST['nome'];
-$cnpj= $_POST['cnpj'];
-$endereco= $_POST['endereco'];
-$cidade= $_POST['cidade'];
-$estado= $_POST['estado'];
-$cep= $_POST['cep'];
-$telefone= $_POST['telefone'];
-$email= $_POST['email'];
-$representante= $_POST['representante'];
-$senha= $_POST['senha'];
-$confirmar_senha= $_POST['confirmar_senha'];
+$nome = $_POST['nome'];
+$cnpj = $_POST['cnpj'];
+$endereco = $_POST['endereco'];
+$cidade = $_POST['cidade'];
+$estado = $_POST['estado'];
+$cep = $_POST['cep'];
+$telefone = $_POST['telefone'];
+$email = $_POST['email'];
+$representante = $_POST['representante'];
+$senha = $_POST['senha'];
+$confirmar_senha = $_POST['confirmar_senha'];
 
 if ($senha == $confirmar_senha) {
-    $sql = "INSERT INTO fornecedor (nome, cnpj, endereco, cidade, estado, cep, telefone, email, representante, senha) VALUES ('$nome', '$cnpj', '$endereco', '$cidade', '$estado', '$cep', '$telefone', '$email', '$representante', '$senha')";
+    
+    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+
+   
+    $sql = "INSERT INTO fornecedor (nome, cnpj, endereco, cidade, estado, cep, telefone, email, representante, senha) 
+            VALUES (:nome, :cnpj, :endereco, :cidade, :estado, :cep, :telefone, :email, :representante, :senha)";
+    
     $sqlcombanco = $conexao->prepare($sql);
+
+   
+    $sqlcombanco->bindParam(':nome', $nome);
+    $sqlcombanco->bindParam(':cnpj', $cnpj);
+    $sqlcombanco->bindParam(':endereco', $endereco);
+    $sqlcombanco->bindParam(':cidade', $cidade);
+    $sqlcombanco->bindParam(':estado', $estado);
+    $sqlcombanco->bindParam(':cep', $cep);
+    $sqlcombanco->bindParam(':telefone', $telefone);
+    $sqlcombanco->bindParam(':email', $email);
+    $sqlcombanco->bindParam(':representante', $representante);
+    $sqlcombanco->bindParam(':senha', $senha_hash); 
 
     if ($sqlcombanco->execute()) {
         echo "<div class='success-message'>";
         echo "<h3>Ok, o fornecedor $nome foi incluído com sucesso!</h3>";
-        echo "<a href='listafornecedor.php' class='success-button'>Visualizar lista de fornecedores</a>";
+        echo "<a href='loginfornecedor.php' class='success-button'>Fazer Login</a>";
         echo "</div>";
     }
 } else {
@@ -141,3 +143,5 @@ if ($senha == $confirmar_senha) {
 
 </body>
 </html>
+
+
