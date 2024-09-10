@@ -109,7 +109,7 @@ if ($senha == $confirmar_senha) {
     if ($sqlcombanco->execute()) {
         echo "<div class='success-message'>";
         echo "<h3>Ok, o usuário $nome foi incluído com sucesso!</h3>";
-        echo "<a href='listausuarios.php' class='success-button'>Visualizar lista de usuários</a>";
+        echo "<a href='login.php' class='success-button'>Fazer Login</a>";
         echo "</div>";
     }
 } else {

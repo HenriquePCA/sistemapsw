@@ -122,10 +122,7 @@ $fornecedor = $stmt->fetch(PDO::FETCH_ASSOC);
             <h3>Cadastrar Produto</h3>
             <button onclick="window.location.href='cadastroproduto.php'">ACESSAR</button>
         </div>
-        <div class="acao">
-            <h3>Relatório de Compras</h3>
-            <button onclick="window.location.href='relatoriocompras.php'">ACESSAR</button>
-        </div>
+   
 
         <div class="acao">
             <h3>Encerrar Sessão</h3>
